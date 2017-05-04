@@ -9,4 +9,4 @@ function camelCase(string) {
 }
 
 
-module.exports = (type) => (type.split(namespacer).map(camelCase).join(namespacer));
+export default (type) => (type.split(namespacer).map(camelCase).join(namespacer));

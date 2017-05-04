@@ -1,8 +1,15 @@
 const path = require('path');
 const fs = require('fs');
 const camelCase = require('./camelCase');
-// const SPACE = '    ';
+const SPACE = '    ';
 // const TWO_SPACE = '        ';
+function getSpaces(count = 1) {
+  let result = '';
+  for (let i = 0; i < count; i++) {
+    result += SPACE;
+  }
+  return result;
+}
 
 function getActionName(action) {
   return action.name.toUpperCase();
@@ -21,7 +28,7 @@ function getCreateActionStr(...actions) {
   });
   const result = `const {
     ${actionMethods.join(',\n    ')}
-} = createActions(${actionNames.join(',\n        ')});
+} = createActions(${actionNames.join(`,\n${getSpaces(2)}`)});
 
 export { ${exportActionMethods.join(', ')} };`;
   return result;
@@ -33,7 +40,7 @@ function getHandleActionStr(...actions) {
   actions.forEach(value => {
     const action = getActionName(value);
     const result = `${action}_RESULT`;
-    handles.push(`    ${action}: (state, action) => ({
+    handles.push(`${getSpaces()}${action}: (state, action) => ({
         ...state,
         isfetching: true
     }),
@@ -46,22 +53,28 @@ function getHandleActionStr(...actions) {
   str = `${str}${handles.join(',\n')}\n}, {});`;
   return str;
 }
+function getRequestStr(action) {
 
-function createSagaStr(...actions) {
-
+}
+function createSagaStr(progress, ...actions) {
+  const result = '';
+  actions.forEach(value => {
+    const actionName = getActionName(value);
+    result += `function* ${actionName}Saga(data) {
+    try {
+        ${progress ? 'yield put(beginTask());\n' : ''}`;
+  });
 }
 
 function createSagaFile(opts) {
   const { filename, progress, actions } = opts;
-  // const actions = getCreateActionStr(...opts.actions);
-  // const reducers = getHandleActionStr(...opts.actions);
 
   const result = `
 import { createActions, handleActions } from 'redux-actions';
 import { call, put, takeEvery } from 'redux-saga/effects';
 ${progress ? 'import { beginTask, endTask } from \'redux- nprogress\';' : ''}
 
-// beging not modify 
+// beging not modify
 ${getCreateActionStr(...actions)}
 
 ${getHandleActionStr(...actions)}
