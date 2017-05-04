@@ -25,6 +25,7 @@
   "homepage": "https://github.com/hengkx/react-tools-cli#readme",
   "dependencies": {
     "chalk": "^1.1.3",
+    "chokidar": "^1.6.1",
     "commander": "^2.9.0",
     "cross-spawn": "^5.1.0"
   },
