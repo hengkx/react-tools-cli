@@ -1,0 +1,23 @@
+{
+  "name": "react-cli",
+  "version": "0.1.0",
+  "description": "react command line utility",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hengkx/react-cli.git"
+  },
+  "keywords": [
+    "react",
+    "saga"
+  ],
+  "author": "Tom Xu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hengkx/react-cli/issues"
+  },
+  "homepage": "https://github.com/hengkx/react-cli#readme"
+}
