@@ -1,6 +1,6 @@
 {
-  "name": "react-cli",
-  "version": "0.1.0",
+  "name": "react-tools-cli",
+  "version": "0.1.1",
   "description": "react command line utility",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hengkx/react-cli.git"
+    "url": "git+https://github.com/hengkx/react-tools-cli.git"
   },
   "keywords": [
     "react",
@@ -17,7 +17,7 @@
   "author": "Tom Xu",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/hengkx/react-cli/issues"
+    "url": "https://github.com/hengkx/react-tools-cli/issues"
   },
-  "homepage": "https://github.com/hengkx/react-cli#readme"
+  "homepage": "https://github.com/hengkx/react-tools-cli#readme"
 }
