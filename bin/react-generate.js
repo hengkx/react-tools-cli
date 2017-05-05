@@ -3,7 +3,9 @@
 const program = require('commander');
 
 program
-  .option('--no-css', 'Don\'t generate css for component and routeComponent')
+  .option('--no-p, --no-progress', 'Don\'t generate progress')
+  .option('-m, --method [method]', 'Specify request method, default get')
+  .option('-i, --extraImport [extraImport]', 'Specify extraImport')
   .option('--base [base]', 'Specify base path, default src')
   .option('--entry [entry]', 'Specify entry path, default ${base}/src')
   .parse(process.argv);

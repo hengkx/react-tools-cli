@@ -14,7 +14,7 @@ function getSpaces(count = 1) {
 function getActionName(action) {
   return action.name.toUpperCase();
 }
-
+// action
 function getCreateActionStr(...actions) {
   const exportActionMethods = [];
   const actionMethods = [];
@@ -34,6 +34,8 @@ export { ${exportActionMethods.join(', ')} };`;
   return res;
 }
 
+
+// reducers
 function getHandleActionStr(...actions) {
   let str = `export default handleActions({\n`;
   const handles = [];
@@ -54,33 +56,64 @@ function getHandleActionStr(...actions) {
   return str;
 }
 function getRequestStr(action) {
-
+  const method = action.method.toUpperCase();
+  if (method === 'GET') {
+    return `const res = yield call(getJSON, ${action.url});`;
+  } else {
+    return `const res = yield call(getJSON, ${action.url}, {
+            method: '${method}',
+            body: JSON.stringify(data.payload)
+        });`;
+  }
 }
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+// saga
 function createSagaStr(progress, ...actions) {
   let result = '';
-  actions.forEach(value => {
-    const actionName = getActionName(value);
-    result += `function* ${actionName}Saga(data) {
+  actions.forEach(action => {
+    const actionName = getActionName(action);
+    const actionResultName = actionName + '_RESULT';
+    const sagaName = `${camelCase(actionName)}Saga`;
+    result +=
+      `function* ${sagaName}(data) {
     try {
-        ${progress ? 'yield put(beginTask());\n' : ''}`;
-  });
+${progress ? '        yield put(beginTask());\n' : ''}\n${getSpaces(2)}${getRequestStr(action)}\n${progress ? '\n        yield put(endTask());' : ''}
+    } catch (error) {
+        yield put(${camelCase(actionResultName)}(error));
+    } ${progress ? ' finally {\n        yield put(endTask());\n    }' : ''}
 }
 
-function createSagaFile(opts) {
-  const { filename, progress, actions } = opts;
+export function* watch${capitalizeFirstLetter(sagaName)}() {
+    yield takeEvery(${camelCase(actionName)}, ${sagaName});
+}`;
+  });
+  return result;
+}
 
-  const result = `
-import { createActions, handleActions } from 'redux-actions';
-import { call, put, takeEvery } from 'redux-saga/effects';
-${progress ? 'import { beginTask, endTask } from \'redux- nprogress\';' : ''}
-
-// beging not modify
+function getActionAndReducer(...actions) {
+  return `// beging not modify
 ${getCreateActionStr(...actions)}
 
 ${getHandleActionStr(...actions)}
 // ending not modify`;
-
-  fs.writeFileSync(filename, result.substr(1));
 }
 
-createSagaFile({ actions: [{ name: 'action' }], filename: 'a.js', progress: true });
+
+function createSagaFile(opts) {
+  const { filename, extraImport, progress, actions } = opts;
+
+  const result = `
+import { createActions, handleActions } from 'redux-actions';
+import { call, put, takeEvery } from 'redux-saga/effects';
+${progress ? 'import { beginTask, endTask } from \'redux-nprogress\';' : ''}
+${extraImport}
+
+${getActionAndReducer(...actions)}
+
+${createSagaStr(progress, ...actions)} `;
+  return result.substr(1);
+}
+export { getActionAndReducer, createSagaStr };
+export default createSagaFile;

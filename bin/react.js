@@ -25,7 +25,6 @@ if (!subcmd) {
 } else {
   const bin = executable(subcmd);
   if (bin) {
-    console.log(bin);
     wrap(spawn(bin, args, { stdio: 'inherit', customFds: [0, 1, 2] }));
   } else {
     program.help();
