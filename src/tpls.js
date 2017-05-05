@@ -26,12 +26,12 @@ function getCreateActionStr(...actions) {
     actionMethods.push(`${camelCase(action)}, ${camelCase(result)}`);
     exportActionMethods.push(camelCase(action));
   });
-  const result = `const {
+  const res = `const {
     ${actionMethods.join(',\n    ')}
 } = createActions(${actionNames.join(`,\n${getSpaces(2)}`)});
 
 export { ${exportActionMethods.join(', ')} };`;
-  return result;
+  return res;
 }
 
 function getHandleActionStr(...actions) {
@@ -57,7 +57,7 @@ function getRequestStr(action) {
 
 }
 function createSagaStr(progress, ...actions) {
-  const result = '';
+  let result = '';
   actions.forEach(value => {
     const actionName = getActionName(value);
     result += `function* ${actionName}Saga(data) {
