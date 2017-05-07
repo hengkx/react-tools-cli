@@ -1,8 +1,8 @@
 const path = require('path');
 const fs = require('fs');
 const camelCase = require('./camelCase');
-const SPACE = '    ';
-// const TWO_SPACE = '        ';
+const SPACE = '  ';
+
 function getSpaces(count = 1) {
   let result = '';
   for (let i = 0; i < count; i++) {
@@ -27,7 +27,7 @@ function getCreateActionStr(...actions) {
     exportActionMethods.push(camelCase(action));
   });
   const res = `const {
-    ${actionMethods.join(',\n    ')}
+${getSpaces()}${actionMethods.join(`,\n${getSpaces()}`)}
 } = createActions(${actionNames.join(`,\n${getSpaces(2)}`)});
 
 export { ${exportActionMethods.join(', ')} };`;
@@ -43,14 +43,14 @@ function getHandleActionStr(...actions) {
     const action = getActionName(value);
     const result = `${action}_RESULT`;
     handles.push(`${getSpaces()}${action}: (state, action) => ({
-        ...state,
-        isfetching: true
-    }),
-    ${result}: (state, action) => ({
-        ...state,
-        isfetching: true,
-        ${camelCase(result)}: action.payload
-    })`);
+${getSpaces(2)}...state,
+${getSpaces(2)}isfetching: true
+${getSpaces()}}),
+${getSpaces()}${result}: (state, action) => ({
+${getSpaces(2)}...state,
+${getSpaces(2)}isfetching: true,
+${getSpaces(2)}${camelCase(result)}: action.payload
+${getSpaces()}})`);
   });
   str = `${str}${handles.join(',\n')}\n}, {});`;
   return str;
@@ -61,9 +61,9 @@ function getRequestStr(action) {
     return `const res = yield call(getJSON, ${action.url});`;
   } else {
     return `const res = yield call(getJSON, ${action.url}, {
-            method: '${method}',
-            body: JSON.stringify(data.payload)
-        });`;
+${getSpaces(3)}method: '${method}',
+${getSpaces(3)}body: JSON.stringify(data.payload)
+${getSpaces(2)}});`;
   }
 }
 function capitalizeFirstLetter(string) {
@@ -78,15 +78,15 @@ function createSagaStr(progress, ...actions) {
     const sagaName = `${camelCase(actionName)}Saga`;
     result +=
       `function* ${sagaName}(data) {
-    try {
-${progress ? '        yield put(beginTask());\n' : ''}\n${getSpaces(2)}${getRequestStr(action)}\n${progress ? '\n        yield put(endTask());' : ''}
-    } catch (error) {
-        yield put(${camelCase(actionResultName)}(error));
-    } ${progress ? ' finally {\n        yield put(endTask());\n    }' : ''}
+${getSpaces()}try {
+${progress ? `${getSpaces(2)}yield put(beginTask());\n` : ''}\n${getSpaces(2)}${getRequestStr(action)}\n${progress ? `\n${getSpaces(2)}yield put(${camelCase(actionResultName)}(res));` : ''}
+${getSpaces()}} catch (error) {
+${getSpaces(2)}yield put(${camelCase(actionResultName)}(error));
+${getSpaces()}} ${progress ? `finally {\n${getSpaces(2)}yield put(endTask());\n${getSpaces()}}` : ''}
 }
 
 export function* watch${capitalizeFirstLetter(sagaName)}() {
-    yield takeEvery(${camelCase(actionName)}, ${sagaName});
+${getSpaces()}yield takeEvery(${camelCase(actionName)}, ${sagaName});
 }`;
   });
   return result;
