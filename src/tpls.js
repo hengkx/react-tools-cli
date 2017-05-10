@@ -22,7 +22,7 @@ function getCreateActionStr(...actions) {
   actions.forEach(value => {
     const action = getActionName(value);
     const result = `${action}_RESULT`;
-    actionNames.push(`${action}, ${result}`);
+    actionNames.push(`'${action}', '${result}'`);
     actionMethods.push(`${camelCase(action)}, ${camelCase(result)}`);
     exportActionMethods.push(camelCase(action));
   });
@@ -42,7 +42,7 @@ function getHandleActionStr(...actions) {
   actions.forEach(value => {
     const action = getActionName(value);
     const result = `${action}_RESULT`;
-    handles.push(`${getSpaces()}${action}: (state, action) => ({
+    handles.push(`${getSpaces()}${action}: (state) => ({
 ${getSpaces(2)}...state,
 ${getSpaces(2)}isfetching: true
 ${getSpaces()}}),

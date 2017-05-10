@@ -3,6 +3,8 @@ import fs from 'fs-extra';
 import createSagaFile, { getActionAndReducer, createSagaStr } from './tpls';
 import chalk from 'chalk';
 import _ from 'lodash';
+import ncp from 'copy-paste';
+
 
 function info(type, message) {
   console.log(`${chalk.green.bold(leftPad(type, 12))}  ${message}`);
@@ -90,8 +92,11 @@ function generate(program, { cwd }) {
   const watchSagas = getWatchSagas(fileContent);
   let watchSagaStr = 'import {';
   watchSagas.forEach((item) => watchSagaStr = `${watchSagaStr} ${item.name},`);
-  watchSagaStr = `${watchSagaStr.substr(0, watchSagaStr.length - 1)} } from ${filename};`;
+  watchSagaStr = `${watchSagaStr.substr(0, watchSagaStr.length - 1)} } from './${filename}';`;
   console.log(chalk.green.bold(watchSagaStr));
+  ncp.copy(watchSagaStr, function () {
+    console.log(chalk.green.bold('成功复制到剪贴板！'));
+  });
 }
 
 
