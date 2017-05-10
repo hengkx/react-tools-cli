@@ -1,6 +1,6 @@
 {
   "name": "react-tools-cli",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "react command line utility",
   "main": "index.js",
   "bin": {
@@ -33,6 +33,7 @@
     "cross-spawn": "^5.1.0",
     "fs-extra": "^3.0.1",
     "lodash": "^4.17.4",
+    "object.omit": "^2.0.1",
     "prompt": "^1.0.0"
   },
   "devDependencies": {

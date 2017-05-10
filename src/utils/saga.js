@@ -9,12 +9,13 @@ function getWatchSagas(str) {
 }
 
 function getActions(str) {
-  const pattern = /createActions\(([A-Z,_ \r\n]+)\);/
+  const pattern = /createActions\(([A-Z,_ '\r\n]+)\);/
   let res = pattern.exec(str)[1].replace(/\s+/g, '').split(',');
   const result = [];
   res.forEach(item => {
     if (item.indexOf('_RESULT') === -1) {
-      result.push(item);
+      console.log(item.replace("'", ""));
+      result.push(item.replace(/'/g, ""));
     }
   });
   return result;
