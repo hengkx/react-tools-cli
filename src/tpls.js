@@ -48,7 +48,7 @@ ${getSpaces(2)}isfetching: true
 ${getSpaces()}}),
 ${getSpaces()}${result}: (state, action) => ({
 ${getSpaces(2)}...state,
-${getSpaces(2)}isfetching: true,
+${getSpaces(2)}isfetching: false,
 ${getSpaces(2)}${camelCase(result)}: action.payload
 ${getSpaces()}})`);
   });
