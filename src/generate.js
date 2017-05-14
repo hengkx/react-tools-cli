@@ -55,7 +55,7 @@ function generate(program, { cwd }) {
     // getActionAndReducer
     let temp = srcFileContent.split('// beging not modify');
     fileContent = `${temp[0]}${getActionAndReducer(...actions)}${temp[1].split('// ending not modify')[1]}`;
-    fileContent = `${fileContent}\n\n${createSagaStr(progress, action)}`;
+    fileContent = `${fileContent}\n\n${createSagaStr(progress, action)}\n`;
   } else {
     fileContent = createSagaFile({
       actions: [action],
