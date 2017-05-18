@@ -31,12 +31,14 @@ import { nprogress } from 'redux-nprogress';
     str += `\nexport default function* rootSaga() {
   yield [
     ${allSaga.join('(),\n    ')}()\n  ];
-}`;
+}
+`;
     fs.writeFileSync(sagaIndexPath, str);
     reducerStr += `\nexport default combineReducers({
   routing: routerReducer,
   nprogress,
-  ${allKey.join(',\n  ')}\n});`;
+  ${allKey.join(',\n  ')}\n});
+`;
     fs.writeFileSync(reducerIndexPath, reducerStr);
     console.log(chalk.green.bold('更新成功！'));
   }
