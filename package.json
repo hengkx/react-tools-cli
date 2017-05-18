@@ -60,7 +60,6 @@
   },
   "files": [
     "lib",
-    "src",
     "bin"
   ]
 }
