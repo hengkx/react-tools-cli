@@ -28,7 +28,7 @@ let subcmd = program.args[0];
 if (aliases[subcmd]) subcmd = aliases[subcmd];
 
 if (!subcmd) {
-  // program.help();
+  program.help();
 } else {
   const bin = executable(subcmd);
   if (bin) {

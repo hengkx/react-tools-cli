@@ -1,91 +1,104 @@
 import path from 'path';
 import fs from 'fs-extra';
 import prompt from 'prompt';
+import chalk from 'chalk';
+import inquirer from 'inquirer';
+import figlet from 'figlet';
+import clear from 'clear';
 import colors from 'colors';
 
 function init(program, { cwd }) {
-  prompt.message = '';
-  // prompt.message = colors.rainbow("Question!");
-  // prompt.delimiter = colors.green("><");
-  prompt.start();
-  const descriptionColor = colors.magenta;
-  const schema = {
-    properties: {
-      directory: {
-        properties: {
-          source: {
-            required: true,
-            default: 'src',
-            description: descriptionColor('source directory'),
-          },
-          component: {
-            required: true,
-            default: 'components',
-            description: descriptionColor('component directory'),
-          },
-          script: {
-            required: true,
-            default: 'js',
-            description: descriptionColor('component script directory'),
-          },
-          style: {
-            required: true,
-            default: 'less',
-            description: descriptionColor('component style directory'),
-          },
-          image: {
-            required: true,
-            default: 'images',
-            description: descriptionColor('component image directory'),
-          },
-          staticData: {
-            required: true,
-            default: 'json',
-            description: descriptionColor('component static data directory'),
-          },
+  clear();
+  console.log(
+    chalk.yellow(
+      figlet.textSync('React Tools', { horizontalLayout: 'full' })
+    )
+  );
+  // var ui = new inquirer.ui.BottomBar();
+
+  // // pipe a Stream to the log zone
+  // // outputStream.pipe(ui.log);
+
+  // // Or simply write output
+  // ui.log.write('something just happened.');
+  // ui.log.write('Almost over, standby!');
+
+  // During processing, update the bottom bar content to display a loader
+  // or output a progress bar, etc
+  // ui.updateBottomBar('new bottom bar content');
+
+  // inquirer.prompt({
+  //   type: 'list',
+  //   name: 'chocolate',
+  //   message: 'What\'s your favorite chocolate?',
+  //   choices: ['Mars', 'Oh Henry', 'Hershey']
+  // }).then(function () {
+  //   inquirer.prompt({
+  //     type: 'list',
+  //     name: 'beverage',
+  //     message: 'And your favorite beverage?',
+  //     choices: ['Pepsi', 'Coke', '7up', 'Mountain Dew', 'Red Bull']
+  //   });
+  // });
+  inquirer.prompt([
+    {
+      type: 'list',
+      name: 'method',
+      message: 'Which request would you like to method?',
+      choices: ['get', 'post', 'put', 'delete'],
+      default: 'post'
+    },
+    {
+      type: 'checkbox',
+      message: 'Select Lifecycle',
+      name: 'lifecycle',
+      choices: [
+        new inquirer.Separator('Mounting'),
+        {
+          name: 'constructor'
+        },
+        {
+          name: 'componentWillMount'
+        },
+        {
+          name: 'render',
+          disabled: true
+        },
+        {
+          name: 'componentDidMount'
+        },
+        new inquirer.Separator('Updating'),
+        {
+          name: 'componentWillReceiveProps'
+        },
+        {
+          name: 'shouldComponentUpdate'
+        },
+        {
+          name: 'componentWillUpdate'
+        },
+        {
+          name: 'render',
+          disabled: true
+        },
+        {
+          name: 'componentDidUpdate'
+        },
+        new inquirer.Separator('Unmounting'),
+        {
+          name: 'componentWillUnmount'
         }
-      },
-      saga: {
-        properties: {
-          urlPrefix: {
-            description: descriptionColor('url prefix'),
-          },
-          method: {
-            required: true,
-            default: 'get',
-            description: descriptionColor('method'),
-          },
-          extraImport: {
-            description: descriptionColor('extra import'),
-          }
+      ],
+      validate: function (answer) {
+        if (answer.length < 1) {
+          return 'You must choose at least one topping.';
         }
+        return true;
       }
     }
-  };
-
-  prompt.get(schema
-    // [
-    //   {
-    //     name: 'urlPrefix',
-    //     description: colors.magenta('url prefix'),
-    //     type: 'string'
-    //   },
-    //   {
-    //     name: 'method',
-    //     description: colors.magenta('method'),
-    //     type: 'string',
-    //     default: 'get'
-    //   },
-    //   {
-    //     name: 'extraImport',
-    //     description: colors.magenta('extra import'),
-    //     type: 'string',
-    //     default: ''
-    //   }
-    // ]
-    , function (err, result) {
-      fs.writeFileSync(path.join(cwd, '.reactconfig'), JSON.stringify(result, null, 2));
-    });
+  ]).then(function (answers) {
+    console.log(JSON.stringify(answers, null, '  '));
+  });
 }
 
 export default init;
