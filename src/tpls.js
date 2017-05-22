@@ -74,7 +74,7 @@ function createSagaStr(progress, ...actions) {
     const actionResultName = actionName + '_RESULT';
     const sagaName = `${camelCase(actionName)}Saga`;
     result +=
-      `function* ${sagaName}(data) {
+      `function* ${sagaName}(${action.params ? 'data' : ''}) {
 ${getSpaces()}try {
 ${progress ? `${getSpaces(2)}yield put(beginTask());\n` : ''}\n${getSpaces(2)}${getRequestStr(action)}\n${progress ? `\n${getSpaces(2)}yield put(${camelCase(actionResultName)}(res));` : ''}
 ${getSpaces()}} catch (error) {
@@ -110,7 +110,7 @@ ${extraImport}
 
 ${getActionAndReducer(...actions)}
 
-${createSagaStr(progress, ...actions)} `;
+${createSagaStr(progress, ...actions)}`;
   return `${result.substr(1)}\n`;
 }
 export { getActionAndReducer, createSagaStr };

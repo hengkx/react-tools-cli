@@ -28,16 +28,16 @@ import { nprogress } from 'redux-nprogress';
         }
       }
     });
-    str += `\nexport default function* rootSaga() {
-  yield [
-    ${allSaga.join('(),\n    ')}()\n  ];
+    if (str) str += '\n';
+    str += `export default function* rootSaga() {
+  yield [${allSaga.length > 0 ? `\n    ${allSaga.join('(),\n    ')}()\n  ` : ''}];
 }
 `;
     fs.writeFileSync(sagaIndexPath, str);
     reducerStr += `\nexport default combineReducers({
   routing: routerReducer,
-  nprogress,
-  ${allKey.join(',\n  ')}\n});
+  nprogress${allKey.length > 0 ? `,\n  ${allKey.join(',\n  ')}` : ''}
+});
 `;
     fs.writeFileSync(reducerIndexPath, reducerStr);
     console.log(chalk.green.bold('更新成功！'));

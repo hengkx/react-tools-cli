@@ -10,10 +10,6 @@ function info(type, message) {
   console.log(`${chalk.green.bold(leftPad(type, 12))}  ${message}`);
 }
 
-function error(message) {
-  console.error(chalk.red(message));
-}
-
 function getConfig(cwd) {
   const configPath = path.join(cwd, '.reactconfig');
   if (fs.existsSync(configPath)) {
@@ -49,7 +45,7 @@ function generate(program, { cwd }) {
       const srcActions = getActions(srcFileContent);
 
       if (_.indexOf(srcActions, actionName.toUpperCase()) !== -1) {
-        return error(`ERROR: action name repeat! ${actionName}`);
+        throw new Error(`ERROR: action name repeat!`);
       }
       const actions = [];
       srcActions.forEach(item => actions.push({ name: item, params }));
