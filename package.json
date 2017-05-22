@@ -1,6 +1,6 @@
 {
   "name": "react-tools-cli",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "react command line utility",
   "main": "index.js",
   "bin": {
