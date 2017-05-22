@@ -1,3 +1,7 @@
+# 1.0.2(2017-05-22)
+### Bug Fixes
+* **watch:** redux reducers import saga path error
+
 # 1.0.1(2017-05-22)
 ### Bug Fixes
 * **genarate:** genarate read config `urlPrefix undefined`

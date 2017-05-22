@@ -23,7 +23,7 @@ import { nprogress } from 'redux-nprogress';
         allSaga.push(...sagas);
         if (sagas.length > 0) {
           allKey.push(key);
-          reducerStr += `import ${key} from '../sagas/${key}';\n`;
+          reducerStr += `import ${key} from './${key}';\n`;
           str += `import { ${sagas.join(', ')} } from './${key}';\n`;
         }
       }
