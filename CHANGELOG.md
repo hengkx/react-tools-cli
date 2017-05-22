@@ -1,4 +1,8 @@
-# 1.0.0
+# 1.0.1(2017-05-22)
+### Bug Fixes
+* **genarate:** genarate read config `urlPrefix undefined`
+
+# 1.0.0(2017-05-22)
 ### Features
 * **redux:** change request, Now use [axios](https://github.com/mzabriskie/axios).
 * **redux:** change saga location, Now `src/redux`.

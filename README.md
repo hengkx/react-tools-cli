@@ -51,6 +51,7 @@ Options:
 ```
 ### react watch
 auto monitor redux saga file change, generate redux/sagas.js and redux/reducers.js
+
 #### Usage Examples
 ``` bash
 $ react watch

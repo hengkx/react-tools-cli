@@ -27,8 +27,8 @@ function generate(program, { cwd }) {
   const config = getConfig(cwd);
   const progress = program.progress !== false;
   const params = program.params !== false;
-  const extraImport = program.extraImport || config.extraImport || '';
-  const method = program.method || config.method || 'get';
+  const extraImport = program.extraImport || config.saga.extraImport || '';
+  const method = program.method || config.saga.method || 'get';
 
   const [filename, actionName, url] = program.args;
   try {
@@ -38,7 +38,7 @@ function generate(program, { cwd }) {
     if (!fs.existsSync(sagaPath)) fs.mkdirsSync(sagaPath);
     const filePath = path.join(sagaPath, `${filename}.js`);
     let fileContent = '';
-    const action = { name: actionName, url: `${config.urlPrefix}${url}`, params, method };
+    const action = { name: actionName, url: `${config.saga.urlPrefix}${url}`, params, method };
 
     if (!/^[A-Za-z_]+$/.test(actionName)) throw new Error(`action name must be letters or underscore.`);
 

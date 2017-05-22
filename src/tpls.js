@@ -111,7 +111,7 @@ ${extraImport}
 ${getActionAndReducer(...actions)}
 
 ${createSagaStr(progress, ...actions)} `;
-  return result.substr(1);
+  return `${result.substr(1)}\n`;
 }
 export { getActionAndReducer, createSagaStr };
 export default createSagaFile;
