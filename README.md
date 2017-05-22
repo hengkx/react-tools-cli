@@ -7,31 +7,17 @@ Install, create and start.
 ```bash
 # Install
 $ npm install react-tools-cli -g
-
-# Create app
-$ react new myapp
-
-# Start app
-$ cd myapp
-$ npm start
 ```
 
 ## Commands
 
-We have 3 commands: `init` and `generate`(alias `g`).
+We have 3 commands: `init`, `generate`(alias `g`) and `watch`.
 
-``` javascript
-// 创建saga根据默认配置创建
-react g filename actionName url
-// 创建saga指定请求方式
-react g filename actionName url -m post
-```
-
+### react init [options]
+#### Usage Examples
 ``` bash
-# create default config file
 $ react init
 ```
-
 #### options
 * directory
   * `source dir` -- project source directory. default `src`
@@ -47,3 +33,25 @@ $ react init
   * `url prefix` -- Generate a saga request url prefix. eg : `APP.HOT.API.`
   * `method` -- Generate a saga request method. default `get`
   * `extra import` -- Generate a saga extra import file
+
+### react generate (short-cut alias: "g") [options]
+#### Usage Examples
+``` bash
+$ react g fileName actionName url
+```
+#### Detailed help
+```
+Options:
+
+    -h, --help                       output usage information
+    --no-p, --no-progress            Don't generate progress
+    --p, --no-params                 Don't requst params
+    -m, --method [method]            Specify request method, default get
+    -i, --extraImport [extraImport]  Specify extraImport
+```
+### react watch
+auto monitor redux saga file change, generate redux/sagas.js and redux/reducers.js
+#### Usage Examples
+``` bash
+$ react watch
+```

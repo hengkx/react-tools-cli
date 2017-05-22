@@ -26,55 +26,59 @@ function getConfig(cwd) {
 function generate(program, { cwd }) {
   const config = getConfig(cwd);
   const progress = program.progress !== false;
-
+  const params = program.params !== false;
   const extraImport = program.extraImport || config.extraImport || '';
   const method = program.method || config.method || 'get';
 
   const [filename, actionName, url] = program.args;
-  // console.log(filename, actionName, url);
-  if (!filename) {
-    return error(`ERROR: uncaught filename ${filename}`);
-  }
+  try {
+    if (!filename) throw new Error(`ERROR: uncaught filename ${filename}`);
 
-  const sagaPath = path.join(cwd, 'src', 'sagas');
-  if (!fs.existsSync(sagaPath)) fs.mkdirsSync(sagaPath);
-  const filePath = path.join(sagaPath, `${filename}.js`);
-  let fileContent = '';
-  const action = { name: actionName, url: `${config.urlPrefix}${url}`, method };
-  if (fs.existsSync(filePath)) {
-    const srcFileContent = fs.readFileSync(filePath, 'utf-8');
+    const sagaPath = path.join(cwd, 'src', 'redux');
+    if (!fs.existsSync(sagaPath)) fs.mkdirsSync(sagaPath);
+    const filePath = path.join(sagaPath, `${filename}.js`);
+    let fileContent = '';
+    const action = { name: actionName, url: `${config.urlPrefix}${url}`, params, method };
 
-    const srcActions = getActions(srcFileContent);
+    if (!/^[A-Za-z_]+$/.test(actionName)) throw new Error(`action name must be letters or underscore.`);
 
-    if (_.indexOf(srcActions, actionName.toUpperCase()) !== -1) {
-      return error(`ERROR: action name repeat! ${actionName}`);
+    if (fs.existsSync(filePath)) {
+
+      const srcFileContent = fs.readFileSync(filePath, 'utf-8');
+
+      const srcActions = getActions(srcFileContent);
+
+      if (_.indexOf(srcActions, actionName.toUpperCase()) !== -1) {
+        return error(`ERROR: action name repeat! ${actionName}`);
+      }
+      const actions = [];
+      srcActions.forEach(item => actions.push({ name: item, params }));
+      actions.push(action);
+      // getActionAndReducer
+      let temp = srcFileContent.split('// beging not modify');
+      fileContent = `${temp[0]}${getActionAndReducer(...actions)}${temp[1].split('// ending not modify')[1]}`;
+      fileContent = `${fileContent}\n\n${createSagaStr(progress, action)}\n`;
+
+    } else {
+      fileContent = createSagaFile({
+        actions: [action],
+        filename: filePath,
+        progress,
+        extraImport
+      });
     }
-    const actions = [];
-    srcActions.forEach(item => actions.push({ name: item }));
-    actions.push(action);
-    // getActionAndReducer
-    let temp = srcFileContent.split('// beging not modify');
-    fileContent = `${temp[0]}${getActionAndReducer(...actions)}${temp[1].split('// ending not modify')[1]}`;
-    fileContent = `${fileContent}\n\n${createSagaStr(progress, action)}\n`;
-  } else {
-    fileContent = createSagaFile({
-      actions: [action],
-      filename: filePath,
-      progress,
-      extraImport
+    fs.writeFileSync(filePath, fileContent);
+    const watchSagas = getWatchSagas(fileContent);
+    let watchSagaStr = 'import {';
+    watchSagas.forEach((item) => watchSagaStr = `${watchSagaStr} ${item.name},`);
+    watchSagaStr = `${watchSagaStr.substr(0, watchSagaStr.length - 1)} } from './${filename}';`;
+    console.log(chalk.green.bold(watchSagaStr));
+    ncp.copy(watchSagaStr, function () {
+      console.log(chalk.green.bold('成功复制到剪贴板！'));
     });
+  } catch (error) {
+    console.log(chalk.red.bold(error.message));
   }
-  fs.writeFileSync(filePath, fileContent);
-  const watchSagas = getWatchSagas(fileContent);
-  let watchSagaStr = 'import {';
-  watchSagas.forEach((item) => watchSagaStr = `${watchSagaStr} ${item.name},`);
-  watchSagaStr = `${watchSagaStr.substr(0, watchSagaStr.length - 1)} } from './${filename}';`;
-  console.log(chalk.green.bold(watchSagaStr));
-  ncp.copy(watchSagaStr, function () {
-    console.log(chalk.green.bold('成功复制到剪贴板！'));
-  });
 }
-
-
 
 export default generate;

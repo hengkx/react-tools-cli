@@ -46,17 +46,15 @@ import { nprogress } from 'redux-nprogress';
 
 
 function watch(program, { cwd }) {
-  const sagaPath = path.join(cwd, 'src', 'sagas');
-  if (!fs.existsSync(sagaPath)) fs.mkdirsSync(sagaPath);
-  const sagaIndexPath = path.join(sagaPath, "index.js");
-  const reducerPath = path.join(cwd, 'src', 'reducers');
-  if (!fs.existsSync(reducerPath)) fs.mkdirsSync(reducerPath);
-  const reducerIndexPath = path.join(reducerPath, 'index.js');
+  const reduxPath = path.join(cwd, 'src', 'redux');
+  if (!fs.existsSync(reduxPath)) fs.mkdirsSync(sagaPath);
+  const sagaIndexPath = path.join(reduxPath, "sagas.js");
+  const reducerIndexPath = path.join(reduxPath, 'reducers.js');
   let sagas = {};
   let isInitFinished = false;
-  const listenPath = `${sagaPath}/**/*.js`;
+  const listenPath = `${reduxPath}/**/*.js`;
   chokidar.watch(listenPath,
-    { ignored: /index.js/ })
+    { ignored: /sagas.js|reducers.js/ })
     .on('all', (event, filepath) => {
       const name = path.basename(filepath).replace(".js", "");
       if (event === 'unlink') {

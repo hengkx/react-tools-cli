@@ -1,11 +1,23 @@
-# 0.3.2
-1. bug: action result isfetching false
+# 1.0.0
+### Features
+* **redux:** change request, Now use [axios](https://github.com/mzabriskie/axios).
+* **redux:** change saga location, Now `src/redux`.
+* **redux:** change saga index.js location, Now `src/redux/sagas.js`.
+* **redux:** change reducers index.js location, Now `src/redux/reducers.js`.
+* **redux:** saga create add params options, default `true`.
+* **watch:** add watch command.
 
-# 0.3.1
-1. auto create 'saga/index' and 'reducer/index' file,end add new line
+# 0.3.2(2017-05-11)
+### Bug Fixes
+* action result isfetching false
 
-# 0.3.0
-1. add watch saga,auto create 'saga/index' and 'reducer/index' file
+# 0.3.1(2017-05-11)
+### Features
+* auto create 'saga/index' and 'reducer/index' file,end add new line
 
-# 0.2.0
-1. add create action,reducer,saga
+# 0.3.0(2017-05-11)
+### Features
+* add watch saga,auto create 'saga/index' and 'reducer/index' file
+
+# 0.2.0(2017-05-05)
+* add create action,reducer,saga

@@ -56,14 +56,11 @@ ${getSpaces()}})`);
   return str;
 }
 function getRequestStr(action) {
-  const method = action.method.toUpperCase();
-  if (method === 'GET') {
-    return `const res = yield call(getJSON, ${action.url});`;
+  const method = action.method.toLowerCase();
+  if (method === 'get') {
+    return `const res = yield call(axios.get, ${action.url}${action.params ? ', { params: data.payload }' : ''});`;
   } else {
-    return `const res = yield call(getJSON, ${action.url}, {
-${getSpaces(3)}method: '${method}',
-${getSpaces(3)}body: JSON.stringify(data.payload)
-${getSpaces(2)}});`;
+    return `const res = yield call(axios.${method}, ${action.url}${action.params ? ', data.payload' : ''});`;
   }
 }
 function capitalizeFirstLetter(string) {
@@ -107,6 +104,7 @@ function createSagaFile(opts) {
   const result = `
 import { createActions, handleActions } from 'redux-actions';
 import { call, put, takeEvery } from 'redux-saga/effects';
+import axios from 'axios';
 ${progress ? 'import { beginTask, endTask } from \'redux-nprogress\';' : ''}
 ${extraImport}
 

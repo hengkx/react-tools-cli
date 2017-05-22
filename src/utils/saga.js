@@ -10,11 +10,12 @@ function getWatchSagas(str) {
 
 function getActions(str) {
   const pattern = /createActions\(([A-Z,_ '\r\n]+)\);/
-  let res = pattern.exec(str)[1].replace(/\s+/g, '').split(',');
+  const matchResult = pattern.exec(str);
+  if(!matchResult) throw new Error('action match error. action name must be letters or underscore.');
+  let res = matchResult[1].replace(/\s+/g, '').split(',');
   const result = [];
   res.forEach(item => {
     if (item.indexOf('_RESULT') === -1) {
-      console.log(item.replace("'", ""));
       result.push(item.replace(/'/g, ""));
     }
   });
