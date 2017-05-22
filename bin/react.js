@@ -6,7 +6,14 @@ const program = require('commander');// 提供了用户命令行输入和参数�
 const spawn = require('cross-spawn');
 const join = require('path').join;
 const exists = require('fs').existsSync;
-
+const updateNotifier = require('update-notifier');
+const pkg = require('../package.json');
+const notifier = updateNotifier({ pkg, updateCheckInterval: 1000 * 60 * 60 });
+notifier.notify();
+// console.log(notifier);
+// if (notifier.update) {
+//   console.log(notifier.update);
+// }
 program
   .version(require('../package').version, '-v, --version')
   .usage('<command> [options]')
@@ -21,7 +28,7 @@ let subcmd = program.args[0];
 if (aliases[subcmd]) subcmd = aliases[subcmd];
 
 if (!subcmd) {
-  program.help();
+  // program.help();
 } else {
   const bin = executable(subcmd);
   if (bin) {

@@ -47,7 +47,7 @@ import { nprogress } from 'redux-nprogress';
 
 function watch(program, { cwd }) {
   const reduxPath = path.join(cwd, 'src', 'redux');
-  if (!fs.existsSync(reduxPath)) fs.mkdirsSync(sagaPath);
+  if (!fs.existsSync(reduxPath)) fs.mkdirsSync(reduxPath);
   const sagaIndexPath = path.join(reduxPath, "sagas.js");
   const reducerIndexPath = path.join(reduxPath, 'reducers.js');
   let sagas = {};

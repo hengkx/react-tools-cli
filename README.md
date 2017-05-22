@@ -11,7 +11,7 @@ $ npm install react-tools-cli -g
 
 ## Commands
 
-We have 3 commands: `init`, `generate`(alias `g`) and `watch`.
+We have 4 commands: `new` ,`init`, `generate`(alias `g`) and `watch`.
 
 ### react init [options]
 #### Usage Examples
@@ -27,8 +27,11 @@ $ react init
       * `image dir` -- component image directory. default `images`
       * `static data dir` -- component static data directory. default `json`
     * `container dir` -- project container directory. default `containers`
-    * `saga dir` -- project saga directory. default `sagas`
-    * `reducer dir` -- project reducer directory. default `reducers`
+    * `redux dir` -- project redux directory. default `redux`
+    * `redux store dir` -- project redux directory. default `store`
+    * `config dir` -- project config directory. default `configs`
+    * `utils dir` -- project config directory. default `utils`
+  * `dist dir` -- project source directory. default `app`
 * saga
   * `url prefix` -- Generate a saga request url prefix. eg : `APP.HOT.API.`
   * `method` -- Generate a saga request method. default `get`
