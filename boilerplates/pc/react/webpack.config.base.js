@@ -7,7 +7,7 @@ import HtmlPlugin from 'html-webpack-plugin';
 let config = {
   projectPath: __dirname,
   sourceDir: 'src',
-  distDir: 'src',
+  distDir: 'app',
   port: 5000
 };
 
