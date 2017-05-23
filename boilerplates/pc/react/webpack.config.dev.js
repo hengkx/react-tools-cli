@@ -1,7 +1,8 @@
+import path from 'path';
 import webpack from 'webpack';
 import webpackMerge from 'webpack-merge';
 import pxtorem from 'postcss-pxtorem';
-import baseConfig from './webpack.config.base';
+import baseConfig, { config } from './webpack.config.base';
 import theme from './themes/theme';
 
 function getIPAdress() {
@@ -19,7 +20,7 @@ function getIPAdress() {
 }
 
 const host = getIPAdress();
-const port = 5000;
+const port = config.port;
 
 export default webpackMerge(baseConfig, {
   devtool: 'cheap-module-source-map',
@@ -35,7 +36,7 @@ export default webpackMerge(baseConfig, {
     'babel-polyfill',
     `webpack-dev-server/client?http://${host}:${port}`,
     'webpack/hot/only-dev-server',
-    './src/index.js',
+     path.join(config.projectPath, config.sourceDir, 'index.js'),
   ],
   module: {
     rules: [

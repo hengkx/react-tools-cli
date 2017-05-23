@@ -1,15 +1,33 @@
 import path from 'path';
+import fs from 'fs';
 import webpack from 'webpack';
 import HtmlPlugin from 'html-webpack-plugin';
+// import webpackJson from './webpack.json';
+
+let config = {
+  projectPath: __dirname,
+  sourceDir: 'src',
+  distDir: 'src',
+  port: 5000
+};
+
+if (fs.existsSync('./webpack.json')) {
+  config = JSON.parse(fs.readFileSync('./webpack.json', 'utf-8'));
+}
+
+
+
+export { config };
 
 export default {
   output: {
-    path: path.join(__dirname, 'app'),
+    path: path.join(config.projectPath, config.distDir),
     publicPath: '/',
     filename: 'resources/js/[name]-[hash:10].js',
     chunkFilename: 'resources/js/[name]-[chunkhash:10].js',
   },
   resolve: {
+    modules: [path.join(__dirname, 'node_modules'), "node_modules"],
     alias: {
       rework: 'rework.less/rework.less'
     },
@@ -57,9 +75,9 @@ export default {
   plugins: [
     new HtmlPlugin({
       inject: true,
-      template: './src/index.ejs',
+      template: path.join(config.projectPath, config.sourceDir, 'index.ejs'),
       title: 'React Boilerplate',
-      favicon: './src/favicon.ico',
+      favicon: path.join(config.projectPath, config.sourceDir, 'favicon.ico'),
       minify: {
         collapseBooleanAttributes: true,
         collapseInlineTagWhitespace: true,

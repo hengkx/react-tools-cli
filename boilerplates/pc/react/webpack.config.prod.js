@@ -1,8 +1,9 @@
+import path from 'path';
 import webpack from 'webpack';
 import webpackMerge from 'webpack-merge';
 import pxtorem from 'postcss-pxtorem';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import baseConfig from './webpack.config.base';
+import baseConfig, { config } from './webpack.config.base';
 import theme from './themes/theme';
 
 export default webpackMerge(baseConfig, {
@@ -18,7 +19,7 @@ export default webpackMerge(baseConfig, {
     ],
     index: [
       'babel-polyfill',
-      './src/index.js'
+      path.join(config.projectPath, config.sourceDir, 'index.js')
     ]
   },
   module: {

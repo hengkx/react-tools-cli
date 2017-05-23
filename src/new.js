@@ -22,9 +22,9 @@ export default (program, { cwd, configDir }) => {
 
   config(program, { configDir, isCreateProject: true })
     .then((result) => {
+
       const spinner = new Ora({
-        text: 'Please wait',
-        // spinner:
+        text: 'Please wait'
       });
       try {
         spinner.start();
@@ -52,9 +52,16 @@ export default (program, { cwd, configDir }) => {
 
         fs.renameSync(path.join(projectPath, 'app'), path.join(projectPath, dirConfig.dist));
 
+        let content = '';
+
         // change webpack
-        let content = fs.readFileSync(path.join(projectPath, 'webpack.config.base.js'), 'utf-8');
-        fs.writeFileSync(path.join(projectPath, 'webpack.config.base.js'), content.replace(/app/g, dirConfig.dist).replace(/src/g, dirConfig.source));
+        content = fs.readFileSync(path.join(projectPath, 'webpack.config.base.js'), 'utf-8');
+        content = content.replace(/app/g, dirConfig.dist).replace(/src/g, dirConfig.source)
+        //         if (result.nodeModulesPath) {
+        //           content = `process.env['NODE_PATH'] = '${result.nodeModulesPath}';
+        // require('module').Module._initPaths();\n\n${content}`
+        //         }
+        fs.writeFileSync(path.join(projectPath, 'webpack.config.base.js'), content);
 
         content = fs.readFileSync(path.join(projectPath, 'webpack.config.dev.js'), 'utf-8');
         fs.writeFileSync(path.join(projectPath, 'webpack.config.dev.js'), content.replace(/src/g, dirConfig.source));
@@ -83,6 +90,7 @@ export default (program, { cwd, configDir }) => {
         } else {
           spinner.succeed('create project succeed');
         }
+        // spinner.succeed('create project succeed');
       } catch (error) {
         console.log(error);
         fs.removeSync(projectPath);
