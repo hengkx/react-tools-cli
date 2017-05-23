@@ -1,0 +1,95 @@
+{
+  "name": "react-boilerplate",
+  "version": "1.0.0",
+  "description": "react boilerplate",
+  "main": "index.js",
+  "scripts": {
+    "remove": "gulp clean:images",
+    "clean": "gulp clean",
+    "start": "cross-env NODE_ENV=development node --trace-warnings -r babel-register ./node_modules/webpack-dev-server/bin/webpack-dev-server --config webpack.config.dev.js",
+    "build": "npm run clean && cross-env NODE_ENV=production node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.prod.js --progress --profile --colors && npm run remove"
+  },
+  "keywords": [
+    "react",
+    "redux",
+    "babel",
+    "webpack"
+  ],
+  "author": {
+    "name": "Tom Xu",
+    "email": "ycxzhkx@gmail.com",
+    "url": "https://github.com/hengkx"
+  },
+  "license": "MIT",
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {
+        "browsers": [
+          "last 3 versions",
+          "> 1%"
+        ]
+      }
+    }
+  },
+  "dependencies": {
+    "antd": "^2.10.1",
+    "axios": "^0.16.1",
+    "classnames": "^2.2.5",
+    "nprogress": "^0.2.0",
+    "object.omit": "^2.0.1",
+    "prop-types": "^15.5.8",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-redux": "^5.0.5",
+    "react-router": "^3.0.5",
+    "react-router-redux": "^4.0.8",
+    "redux": "^3.6.0",
+    "redux-actions": "^2.0.3",
+    "redux-nprogress": "^0.1.3",
+    "redux-saga": "^0.14.8"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.7.2",
+    "babel-core": "^6.22.1",
+    "babel-eslint": "^7.1.1",
+    "babel-loader": "^6.4.1",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-import": "^1.1.0",
+    "babel-plugin-recharts": "^1.1.0",
+    "babel-polyfill": "^6.22.0",
+    "babel-preset-env": "^1.4.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.22.0",
+    "babel-preset-react-optimize": "^1.0.1",
+    "babel-preset-stage-0": "^6.22.0",
+    "babel-register": "^6.24.1",
+    "cross-env": "^3.1.4",
+    "css-loader": "^0.26.1",
+    "del": "^2.2.2",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-config-airbnb-base": "^11.1.3",
+    "eslint-plugin-compat": "^1.0.2",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-react": "^6.9.0",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "file-loader": "^0.11.1",
+    "gulp": "^3.9.1",
+    "html-webpack-plugin": "^2.28.0",
+    "image-webpack-loader": "^3.2.0",
+    "less": "^2.7.2",
+    "less-loader": "^2.2.3",
+    "postcss-loader": "^1.2.2",
+    "postcss-pxtorem": "^4.0.0",
+    "react-hot-loader": "^3.0.0-beta.6",
+    "style-loader": "^0.13.1",
+    "svg-sprite-loader": "^0.2.2",
+    "url-loader": "^0.5.7",
+    "vinyl-paths": "^2.1.0",
+    "webpack": "^2.4.1",
+    "webpack-dev-server": "^2.4.5",
+    "webpack-merge": "^2.6.1"
+  }
+}

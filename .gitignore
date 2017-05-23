@@ -28,6 +28,8 @@ build/Release
 node_modules
 lib
 bin/src
+bin/test
+bin/test2
 bin/.reactconfig
 
 # OSX

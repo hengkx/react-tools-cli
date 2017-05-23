@@ -1,5 +1,7 @@
 const path = require('path');
 const fs = require('fs');
+import invariant from 'invariant';
+import uniqBy from 'lodash/uniqBy';
 const camelCase = require('./camelCase');
 const SPACE = '  ';
 
@@ -12,10 +14,12 @@ function getSpaces(count = 1) {
 }
 
 function getActionName(action) {
-  return action.name.toUpperCase();
+  if (action && action.name) return action.name.toUpperCase();
+  return undefined;
 }
 // action
 function getCreateActionStr(...actions) {
+  invariant(uniqBy(actions, 'name').length === actions.length, 'Expected action name not repeat');
   const exportActionMethods = [];
   const actionMethods = [];
   const actionNames = [];
@@ -40,6 +44,7 @@ function getHandleActionStr(...actions) {
   let str = `export default handleActions({\n`;
   const handles = [];
   actions.forEach(value => {
+    invariant(value && value.name, 'Expected action to be a object {name:\'\'}');
     const action = getActionName(value);
     const result = `${action}_RESULT`;
     handles.push(`${getSpaces()}${action}: (state) => ({
@@ -56,7 +61,9 @@ ${getSpaces()}})`);
   return str;
 }
 function getRequestStr(action) {
-  const method = action.method.toLowerCase();
+  if (!action) throw new Error('param is not undefined.');
+  const method = (action.method || 'get').toLowerCase();
+  if (!action.url) throw new Error('request url is not undefined.');
   if (method === 'get') {
     return `const res = yield call(axios.get, ${action.url}${action.params ? ', { params: data.payload }' : ''});`;
   } else {
@@ -113,5 +120,6 @@ ${getActionAndReducer(...actions)}
 ${createSagaStr(progress, ...actions)}`;
   return `${result.substr(1)}\n`;
 }
-export { getActionAndReducer, createSagaStr };
+export { getActionAndReducer, createSagaStr, getSpaces, getActionName, getCreateActionStr, getHandleActionStr, getRequestStr, capitalizeFirstLetter };
+
 export default createSagaFile;

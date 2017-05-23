@@ -5,6 +5,6 @@ const program = require('commander');
 program
   .parse(process.argv);
 
-require('../lib/global')(program, {
-  cwd: process.cwd()
+require('../lib/config')(program, {
+  configDir: process.env.USERPROFILE,
 });

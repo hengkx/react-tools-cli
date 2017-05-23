@@ -1,0 +1,42 @@
+{
+    "presets": [
+        [
+            "env",
+            {
+                "targets": {
+                    "node": 6
+                },
+                "useBuiltIns": true
+            }
+        ],
+        [
+            "es2015",
+            {
+                "modules": false
+            }
+        ],
+        "stage-0",
+        "react"
+    ],
+    "plugins": [
+        "add-module-exports",
+        [
+            "import",
+            [
+                {
+                    "libraryName": "antd",
+                    "style": true
+                }
+            ]
+        ]
+    ],
+    "env": {
+        "production": {
+        },
+        "development": {
+            "plugins": [
+                "react-hot-loader/babel"
+            ]
+        }
+    }
+}

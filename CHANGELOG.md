@@ -1,4 +1,7 @@
-# 1.0.4(2017-05-22)
+# 1.1.0(2017-05-23)
+### Features
+* **global:** add global config command
+* **new:** add new command(create project)
 ### Bug Fixes
 * **watch:** redux directory no exists erros
 

@@ -11,12 +11,13 @@ $ npm install react-tools-cli -g
 
 ## Commands
 
-We have 4 commands: `new` ,`init`, `generate`(alias `g`) and `watch`.
+We have 5 commands: `global`, `new`, `init`, `generate`(alias `g`) and `watch`.
 
-### react init [options]
+### react global [options]
+Global default settings
 #### Usage Examples
 ``` bash
-$ react init
+$ react global
 ```
 #### options
 * directory
@@ -34,8 +35,23 @@ $ react init
   * `dist dir` -- project source directory. default `app`
 * saga
   * `url prefix` -- Generate a saga request url prefix. eg : `APP.HOT.API.`
+  * `url suffix` -- Generate a saga request url suffix.
   * `method` -- Generate a saga request method. default `get`
-  * `extra import` -- Generate a saga extra import file
+  * `extra import` -- Generate a saga extra import file. eg : `import Api from '../Config/Api';`
+
+### react init [options]
+Current project default settings. options same as `gloabl options`
+#### Usage Examples
+``` bash
+$ react init
+```
+
+### react new [options]
+Create a new project. options same as `gloabl options`
+#### Usage Examples
+``` bash
+$ react new porjectName
+```
 
 ### react generate (short-cut alias: "g") [options]
 #### Usage Examples
