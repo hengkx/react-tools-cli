@@ -15,7 +15,6 @@ export default (program, { cwd, configDir }) => {
   if (!projectName) {
     return console.log(chalk.red.bold('porject name required'));
   }
-
   const projectPath = path.join(cwd, projectName);
   if (fs.existsSync(projectPath)) {
     return console.log(chalk.red.bold('porject exists'));
@@ -30,7 +29,7 @@ export default (program, { cwd, configDir }) => {
       try {
         spinner.start();
 
-        const basePath = '../boilerplates/pc/react';
+        const basePath = path.join(__dirname, '../boilerplates/pc/react');
         // copy bolierplate to project path
         fs.copySync(basePath, projectPath);
         fs.writeFileSync(path.join(projectPath, '.reactconfig'), JSON.stringify(result, null, 2));
@@ -85,6 +84,7 @@ export default (program, { cwd, configDir }) => {
           spinner.succeed('create project succeed');
         }
       } catch (error) {
+        console.log(error);
         fs.removeSync(projectPath);
         spinner.fail('create project failed');
       }

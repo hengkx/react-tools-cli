@@ -1,3 +1,11 @@
+# 1.1.3(2017-05-23)
+### Bug Fixes
+* **new:** create project, project boilerplates empty directory publish error
+
+# 1.1.1(2017-05-23)
+### Bug Fixes
+* **new:** Output error log
+
 # 1.1.0(2017-05-23)
 ### Features
 * **global:** add global config command
