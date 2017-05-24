@@ -4,7 +4,7 @@ import { join } from 'path';
 import config from './config';
 import createProject from './utils/createProject';
 
-export default ({ cwd, defaultConfigDir }) => {
+export default ({ cwd, appData, defaultConfigDir }) => {
   config({ cwd, defaultConfigDir, isCreateProject: true })
     .then((result) => {
       const spinner = new Ora({
@@ -13,7 +13,7 @@ export default ({ cwd, defaultConfigDir }) => {
       const projectPath = join(cwd, result.name);
       try {
         spinner.start();
-        createProject(projectPath, result);
+        createProject(projectPath, appData, result);
         spinner.succeed('create project succeed');
       } catch (error) {
         console.log(chalk.red(error));

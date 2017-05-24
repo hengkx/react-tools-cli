@@ -131,7 +131,7 @@ const project = (config = {}, { cwd, isCreateProject }) => {
       type: 'confirm',
       name: 'configSeparation',
       message: 'Is this config file separation?',
-      default: false
+      default: config.configSeparation
     },
     pickBy({
       type: 'input',

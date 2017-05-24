@@ -10,7 +10,9 @@ let config = {
   port: 5000
 };
 
-if (fs.existsSync('./webpack.json')) {
+if (process.env.id) {
+  config = JSON.parse(fs.readFileSync(`./${process.env.id}.json`, 'utf-8'));
+} else if (fs.existsSync('./webpack.json')) {
   config = JSON.parse(fs.readFileSync('./webpack.json', 'utf-8'));
 } else if (fs.existsSync('./.reactconfig')) {
   config = JSON.parse(fs.readFileSync('./.reactconfig', 'utf-8')).webpack;

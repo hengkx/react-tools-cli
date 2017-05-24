@@ -1,4 +1,5 @@
 import { join } from 'path';
+import uuid from 'uuid';
 import fs from 'fs-extra';
 import { getRenamePaths } from './index';
 
@@ -33,20 +34,49 @@ function renamePaths(projectPath, dirConfig) {
     });
 }
 
-export default (projectPath, config) => {
+export default (projectPath, appData, config) => {
   try {
+    const id = uuid.v1();
+    const dataPath = join(appData, 'react-tools-cli', 'react');
+    if (!fs.existsSync(dataPath)) fs.mkdirsSync(dataPath);
+
     const basePath = join(__dirname, '../../boilerplates/pc/react');
     // copy bolierplate to project path
-    fs.copySync(basePath, projectPath);
 
     const dirConfig = config.directory || {};
-    if (!config.configSeparation) {
-      config.webpack = {
-        projectPath: "__dirname",
-        sourceDir: dirConfig.source,
-        distDir: dirConfig.dist,
-        port: config.devPort
-      };
+
+    let webpack = {
+      projectPath: "__dirname",
+      sourceDir: dirConfig.source,
+      distDir: dirConfig.dist,
+      port: config.devPort
+    };
+
+    if (config.configSeparation) {
+      if (fs.readdirSync(dataPath).length === 0) {
+        fs.copySync(join(basePath, 'config'), dataPath);
+        fs.copySync(config.nodeModulesPath, join(dataPath, 'node_modules'));
+      }
+
+      let packageJson = JSON.parse(fs.readFileSync(join(dataPath, 'package.json'), 'utf-8'))
+      packageJson.scripts[`start${id}`] = packageJson.scripts.start.replace('{id}', id);
+      packageJson.scripts[`build${id}`] = packageJson.scripts.build.replace('{id}', id);
+      fs.writeFileSync(join(dataPath, 'package.json'), JSON.stringify(packageJson, null, 2));
+
+      webpack.projectPath = projectPath;
+      config.id = id;
+      fs.writeFileSync(join(dataPath, `${id}.json`), JSON.stringify(webpack, null, 2));
+      config.webpack = webpack;
+      fs.copySync(join(basePath, 'project'), projectPath);
+      // fs.copySync(basePath, projectPath, {
+      //   filter: (path) => {
+      //     return path.indexOf('node_modules') > -1
+      //   }
+      // });
+    } else {
+      config.webpack = webpack;
+      fs.copySync(join(basePath, 'project'), projectPath);
+      fs.copySync(join(basePath, 'config'), projectPath);
     }
 
     fs.writeFileSync(join(projectPath, '.reactconfig'), JSON.stringify(config, null, 2));
