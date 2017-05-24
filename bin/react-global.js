@@ -1,10 +1,5 @@
 #!/usr/bin/env node
 
-const program = require('commander');
-
-program
-  .parse(process.argv);
-
-require('../lib/config')(program, {
+require('../lib/config')({
   defaultConfigDir: process.env.USERPROFILE,
 });

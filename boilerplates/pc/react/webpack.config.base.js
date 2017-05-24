@@ -2,7 +2,6 @@ import path from 'path';
 import fs from 'fs';
 import webpack from 'webpack';
 import HtmlPlugin from 'html-webpack-plugin';
-// import webpackJson from './webpack.json';
 
 let config = {
   projectPath: __dirname,
@@ -13,9 +12,12 @@ let config = {
 
 if (fs.existsSync('./webpack.json')) {
   config = JSON.parse(fs.readFileSync('./webpack.json', 'utf-8'));
+} else if (fs.existsSync('./.reactconfig')) {
+  config = JSON.parse(fs.readFileSync('./.reactconfig', 'utf-8')).webpack;
 }
-
-
+if (config.projectPath === '__dirname') {
+  config.projectPath = __dirname;
+}
 
 export { config };
 

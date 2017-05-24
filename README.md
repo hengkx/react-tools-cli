@@ -24,8 +24,9 @@ $ react global
 * `description` -- project description.
 * `version` -- project description. default `1.0.0`
 * `remark` -- project remark.
-* `configSplit` -- project config file separation. default `false`
+* `configSeparation` -- project config file separation. default `false`
 * `nodeModulesPath` -- project node modules path.
+* `devPort` -- project development port. default `5000`
 * browserSupport
   * `chrome` -- browser support chrome
   * `firefox` -- browser support firefox

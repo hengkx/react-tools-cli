@@ -1,3 +1,8 @@
+# 1.1.3
+* **global:** add browser support
+* **global:** add development port. default `5000`
+* **global:** add config file separation. default `false`
+
 # 1.1.3(2017-05-23)
 ### Bug Fixes
 * **new:** create project, project boilerplates empty directory publish error

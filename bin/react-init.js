@@ -2,10 +2,7 @@
 
 const program = require('commander');
 
-program
-  .parse(process.argv);
-
-require('../lib/config')(program, {
+require('../lib/config')({
   cwd: process.cwd(),
   configDir: process.env.USERPROFILE
 });

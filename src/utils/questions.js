@@ -129,7 +129,7 @@ const project = (config = {}, { cwd, isCreateProject }) => {
     }),
     {
       type: 'confirm',
-      name: 'configSplit',
+      name: 'configSeparation',
       message: 'Is this config file separation?',
       default: false
     },
@@ -138,7 +138,18 @@ const project = (config = {}, { cwd, isCreateProject }) => {
       name: 'nodeModulesPath',
       message: 'What\'s your node modules default path?',
       default: config.nodeModulesPath || ''
-    })
+    }),
+    {
+      type: 'input',
+      name: 'devPort',
+      message: 'What\'s your development port?',
+      default: config.devPort || 5000,
+      validate: function (value) {
+        const valid = !isNaN(parseInt(value));
+        return valid || 'Please enter a valid port number';
+      },
+      filter: Number
+    }
   ];
 };
 

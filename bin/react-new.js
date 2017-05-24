@@ -1,9 +1,6 @@
 #!/usr/bin/env node
 
-const program = require('commander');
-console.log(require('../lib/new'));
-
-require('../lib/new')(program, {
+require('../lib/new')({
   cwd: process.cwd(),
   defaultConfigDir: process.env.USERPROFILE
 });

@@ -27,7 +27,7 @@ function hint(content) {
   console.log(chalk.magenta(content));
 }
 
-function* config(program, { cwd, defaultConfigDir, isCreateProject }) {
+function* config({ cwd, defaultConfigDir, isCreateProject }) {
   clear();
   console.log(
     chalk.yellow(
@@ -70,6 +70,6 @@ function* config(program, { cwd, defaultConfigDir, isCreateProject }) {
 }
 
 
-export default (program, { defaultConfigDir, cwd, isCreateProject }) => {
-  return co(config(program, { defaultConfigDir, cwd, isCreateProject }));
+export default ({ defaultConfigDir, cwd, isCreateProject }) => {
+  return co(config({ defaultConfigDir, cwd, isCreateProject }));
 };
