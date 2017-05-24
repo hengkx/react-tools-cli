@@ -1,4 +1,5 @@
 import path from 'path';
+import { join } from 'path';
 import fs from 'fs-extra';
 import prompt from 'prompt';
 import chalk from 'chalk';
@@ -9,26 +10,17 @@ import clear from 'clear';
 import invariant from 'invariant';
 import Ora from 'ora';
 import config from './config';
+import { getRenamePaths } from './utils';
 
-export default (program, { cwd, configDir }) => {
-  const [projectName] = program.args;
-  if (!projectName) {
-    return console.log(chalk.red.bold('porject name required'));
-  }
-  const projectPath = path.join(cwd, projectName);
-  if (fs.existsSync(projectPath)) {
-    return console.log(chalk.red.bold('porject exists'));
-  }
-
-  config(program, { configDir, isCreateProject: true })
+export default (program, { cwd, defaultConfigDir }) => {
+  config(program, { cwd, defaultConfigDir, isCreateProject: true })
     .then((result) => {
-
       const spinner = new Ora({
         text: 'Please wait'
       });
+      const projectPath = join(cwd, result.name);
       try {
         spinner.start();
-
         const basePath = path.join(__dirname, '../boilerplates/pc/react');
         // copy bolierplate to project path
         fs.copySync(basePath, projectPath);
@@ -36,21 +28,29 @@ export default (program, { cwd, configDir }) => {
 
         const dirConfig = result.directory || {};
         const projectSourcePath = path.join(projectPath, dirConfig.source);
-        fs.renameSync(path.join(projectPath, 'src'), projectSourcePath);
+        // fs.renameSync(path.join(projectPath, 'src'), projectSourcePath);
 
         const componentPath = path.join(projectSourcePath, dirConfig.component);
         const defaultComponentPath = path.join(componentPath, 'Index');
-        fs.renameSync(path.join(projectSourcePath, 'components'), componentPath);
-        fs.renameSync(path.join(defaultComponentPath, 'js'), path.join(defaultComponentPath, dirConfig.script));
-        fs.renameSync(path.join(defaultComponentPath, 'less'), path.join(defaultComponentPath, dirConfig.style));
 
-        fs.renameSync(path.join(projectSourcePath, 'config'), path.join(projectSourcePath, dirConfig.config));
-        fs.renameSync(path.join(projectSourcePath, 'containers'), path.join(projectSourcePath, dirConfig.container));
-        fs.renameSync(path.join(projectSourcePath, 'redux'), path.join(projectSourcePath, dirConfig.redux));
-        fs.renameSync(path.join(projectSourcePath, 'store'), path.join(projectSourcePath, dirConfig.reduxStore));
-        fs.renameSync(path.join(projectSourcePath, 'utils'), path.join(projectSourcePath, dirConfig.util));
+        // fs.renameSync(path.join(projectSourcePath, 'components'), componentPath);
+        // fs.renameSync(path.join(defaultComponentPath, 'js'), path.join(defaultComponentPath, dirConfig.script));
+        // fs.renameSync(path.join(defaultComponentPath, 'less'), path.join(defaultComponentPath, dirConfig.style));
 
-        fs.renameSync(path.join(projectPath, 'app'), path.join(projectPath, dirConfig.dist));
+        // fs.renameSync(path.join(projectSourcePath, 'config'), path.join(projectSourcePath, dirConfig.config));
+        // fs.renameSync(path.join(projectSourcePath, 'containers'), path.join(projectSourcePath, dirConfig.container));
+        // fs.renameSync(path.join(projectSourcePath, 'redux'), path.join(projectSourcePath, dirConfig.redux));
+        // fs.renameSync(path.join(projectSourcePath, 'store'), path.join(projectSourcePath, dirConfig.reduxStore));
+        // fs.renameSync(path.join(projectSourcePath, 'utils'), path.join(projectSourcePath, dirConfig.util));
+
+        // fs.renameSync(path.join(projectPath, 'app'), path.join(projectPath, dirConfig.dist));
+        const renamePaths = getRenamePaths(projectPath, dirConfig);
+        // console.log(renamePaths);
+        renamePaths.forEach((item) => {
+          if (fs.existsSync(item.src)) {
+            fs.renameSync(item.src, item.dest);
+          }
+        });
 
         let content = '';
 

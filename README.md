@@ -20,6 +20,19 @@ Global default settings
 $ react global
 ```
 #### options
+* `name` -- project name. default `react-tools-cli`
+* `description` -- project description.
+* `version` -- project description. default `1.0.0`
+* `remark` -- project remark.
+* `configSplit` -- project config file separation. default `false`
+* `nodeModulesPath` -- project node modules path.
+* browserSupport
+  * `chrome` -- browser support chrome
+  * `firefox` -- browser support firefox
+  * `safari` -- browser support safari
+  * `opera` -- browser support opera
+  * `edge` -- browser support edge
+  * `ie` -- browser support ie
 * directory
   * `source dir` -- project source directory. default `src`
     * `component dir` -- project component directory. default `components`
@@ -30,7 +43,7 @@ $ react global
     * `container dir` -- project container directory. default `containers`
     * `redux dir` -- project redux directory. default `redux`
     * `redux store dir` -- project redux directory. default `store`
-    * `config dir` -- project config directory. default `configs`
+    * `config dir` -- project config directory. default `config`
     * `utils dir` -- project config directory. default `utils`
   * `dist dir` -- project source directory. default `app`
 * saga
@@ -38,6 +51,13 @@ $ react global
   * `url suffix` -- Generate a saga request url suffix.
   * `method` -- Generate a saga request method. default `get`
   * `extra import` -- Generate a saga extra import file. eg : `import Api from '../Config/Api';`
+
+### react new [options]
+Create a new project. options same as `gloabl options`
+#### Usage Examples
+``` bash
+$ react new
+```
 
 ### react init [options]
 Current project default settings. options same as `gloabl options`
@@ -50,7 +70,7 @@ $ react init
 Create a new project. options same as `gloabl options`
 #### Usage Examples
 ``` bash
-$ react new porjectName
+$ react new
 ```
 
 ### react generate (short-cut alias: "g") [options]

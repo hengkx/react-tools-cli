@@ -6,5 +6,5 @@ program
   .parse(process.argv);
 
 require('../lib/config')(program, {
-  configDir: process.env.USERPROFILE,
+  defaultConfigDir: process.env.USERPROFILE,
 });

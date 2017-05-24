@@ -1,3 +1,7 @@
+import pickBy from 'lodash/pickBy';
+import { join } from 'path';
+import { existsSync } from 'fs';
+
 const directory = (directoryConfig = {}) => {
   return [
     {
@@ -65,16 +69,16 @@ const directory = (directoryConfig = {}) => {
 
 const saga = (sagaConfig = {}) => {
   return [
-    {
+    pickBy({
       name: 'urlPrefix',
       message: 'What\'s your request url prefix',
       default: sagaConfig.urlPrefix || ''
-    },
-    {
+    }),
+    pickBy({
       name: 'urlSuffix',
       message: 'What\'s your request url suffix',
       default: sagaConfig.urlSuffix || ''
-    },
+    }),
     {
       type: 'list',
       name: 'method',
@@ -82,26 +86,101 @@ const saga = (sagaConfig = {}) => {
       choices: ['get', 'post', 'put', 'delete'],
       default: sagaConfig.method || 'get'
     },
-    {
+    pickBy({
       name: 'extraImport',
       message: 'What\'s your saga extra import file',
       default: sagaConfig.extraImport || ''
-    }
+    })
   ];
 }
-const nodeModulesPath = (config) => {
-  return {
-    type: 'input',
-    name: 'nodeModulesPath',
-    message: 'What\'s your node modules default path?',
-    default: config.nodeModulesPath || ''
-  }
-}
 
+const project = (config = {}, { cwd, isCreateProject }) => {
+  return [
+    {
+      name: 'name',
+      message: 'What\'s your project name',
+      default: config.name || 'react-tools-cli',
+      validate: function (input) {
+        if (input.match(/^[a-z0-9_-]+$/i)) {
+          if (isCreateProject) {
+            if (existsSync(join(cwd, input))) {
+              return 'porject exists';
+            }
+          }
+          return true;
+        }
+        return 'Please enter a valid project name. must be /^[a-z0-9_-]+$/i';
+      }
+    },
+    pickBy({
+      name: 'description',
+      message: 'What\'s your project description',
+      default: config.description || ''
+    }),
+    {
+      name: 'version',
+      message: 'What\'s your project version',
+      default: config.version || '1.0.0'
+    },
+    pickBy({
+      name: 'remark',
+      message: 'What\'s your project remark',
+      default: config.remark || ''
+    }),
+    {
+      type: 'confirm',
+      name: 'configSplit',
+      message: 'Is this config file separation?',
+      default: false
+    },
+    pickBy({
+      type: 'input',
+      name: 'nodeModulesPath',
+      message: 'What\'s your node modules default path?',
+      default: config.nodeModulesPath || ''
+    })
+  ];
+};
+
+const browserSupport = (config = {}) => {
+  return [
+    pickBy({
+      name: 'chrome',
+      message: 'What\'s your browser support chrome',
+      default: config.chrome || ''
+    }),
+    pickBy({
+      name: 'firefox',
+      message: 'What\'s your browser support firefox',
+      default: config.firefox || ''
+    }),
+    pickBy({
+      name: 'safari',
+      message: 'What\'s your browser support safari',
+      default: config.safari || ''
+    }),
+    pickBy({
+      name: 'opera',
+      message: 'What\'s your browser support opera',
+      default: config.opera || ''
+    }),
+    pickBy({
+      name: 'edge',
+      message: 'What\'s your browser support edge',
+      default: config.edge || ''
+    }),
+    pickBy({
+      name: 'ie',
+      message: 'What\'s your browser support ie',
+      default: config.ie || ''
+    }),
+  ];
+};
 const confirm = {
   type: 'confirm',
   name: 'isOk',
   message: 'Is this ok?',
   default: true
 };
-export { directory, saga, nodeModulesPath, confirm };
+
+export { project, browserSupport, directory, saga, confirm };

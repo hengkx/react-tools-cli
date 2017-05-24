@@ -7,7 +7,7 @@ import figlet from 'figlet';
 import clear from 'clear';
 import colors from 'colors';
 import co from 'co';
-import { directory, saga, nodeModulesPath, confirm } from './utils/questions';
+import { project, browserSupport, directory, saga, confirm } from './utils/questions';
 
 function getConfig(configDir) {
   const configPath = path.join(configDir, '.reactconfig');
@@ -23,32 +23,39 @@ function getConfig(configDir) {
   }
 }
 
-function* config(program, { configDir, currentConfigDir, isCreateProject }) {
+function hint(content) {
+  console.log(chalk.magenta(content));
+}
+
+function* config(program, { cwd, defaultConfigDir, isCreateProject }) {
   clear();
   console.log(
     chalk.yellow(
       figlet.textSync('React Tools', { horizontalLayout: 'full' })
     )
   );
-  let configFileName = path.join(configDir, '.reactconfig');
-  let config = getConfig(configDir);
-  if (currentConfigDir) {
-    configFileName = path.join(currentConfigDir, '.reactconfig');
+
+  let configFileName = path.join(defaultConfigDir, '.reactconfig');
+  let config = getConfig(defaultConfigDir);
+  if (cwd) {
+    configFileName = path.join(cwd, '.reactconfig');
     if (fs.existsSync(configFileName)) {
-      config = getConfig(currentConfigDir);
+      config = getConfig(cwd);
     }
   }
   // console.log(JSON.stringify(config, null, 2));
-  console.log(chalk.magenta('directory config'));
-  config.directory = yield inquirer.prompt(directory(config.directory));
-  console.log(chalk.magenta('saga config'));
-  config.saga = yield inquirer.prompt(saga(config.saga));
-  console.log(chalk.magenta('node modules config'));
+  hint('project config');
   config = {
     ...config,
-    ... yield inquirer.prompt(nodeModulesPath(config))
+    ... yield inquirer.prompt(project(config, { cwd, isCreateProject }))
   };
-  console.log(chalk.magenta('confirm'));
+  hint('project browser support config');
+  config.browserSupport = yield inquirer.prompt(browserSupport(config.browserSupport));
+  hint('directory config');
+  config.directory = yield inquirer.prompt(directory(config.directory));
+  hint('saga config');
+  config.saga = yield inquirer.prompt(saga(config.saga));
+  hint('confirm config');
   const confirmResult = yield inquirer.prompt(confirm);
 
   if (confirmResult.isOk) {
@@ -63,6 +70,6 @@ function* config(program, { configDir, currentConfigDir, isCreateProject }) {
 }
 
 
-export default (program, { configDir, currentConfigDir, isCreateProject }) => {
-  return co(config(program, { configDir, currentConfigDir, isCreateProject }));
+export default (program, { defaultConfigDir, cwd, isCreateProject }) => {
+  return co(config(program, { defaultConfigDir, cwd, isCreateProject }));
 };
