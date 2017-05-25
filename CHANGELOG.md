@@ -1,4 +1,4 @@
-# 1.1.3
+# 1.2.0-beta.1
 * **global:** add browser support
 * **global:** add development port. default `5000`
 * **global:** add config file separation. default `false`

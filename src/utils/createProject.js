@@ -1,6 +1,8 @@
 import { join } from 'path';
 import uuid from 'uuid';
 import fs from 'fs-extra';
+import spawn from 'cross-spawn';
+import which from 'which';
 import { getRenamePaths } from './index';
 
 function renamePaths(projectPath, dirConfig) {
@@ -34,6 +36,19 @@ function renamePaths(projectPath, dirConfig) {
     });
 }
 
+function runCmd(cmd, args, fn) {
+  args = args || [];
+  var runner = require('child_process').spawn(cmd, args, {
+    // keep color
+    stdio: "inherit"
+  });
+  runner.on('close', function (code) {
+    if (fn) {
+      fn(code);
+    }
+  });
+}
+
 export default (projectPath, appData, config) => {
   try {
     const id = uuid.v1();
@@ -53,11 +68,29 @@ export default (projectPath, appData, config) => {
     };
 
     if (config.configSeparation) {
+      // console.log(which.sync('npm'));
+      // console.log(__dirname); //E:\react-tools-cli\lib\utils
+
       if (fs.readdirSync(dataPath).length === 0) {
         fs.copySync(join(basePath, 'config'), dataPath);
-        fs.copySync(config.nodeModulesPath, join(dataPath, 'node_modules'));
-      }
 
+        if (config.nodeModulesPath) {
+          fs.copySync(config.nodeModulesPath, join(dataPath, 'node_modules'));
+        } else {
+          // console.log(dataPath);
+          // spawn('cmd.exe', [`/k cd ${dataPath} && npm install`], { stdio: 'inherit' });
+          // spawn(which.sync('npm'), ['install'], { stdio: 'inherit' });
+          const npm = 'npm';//findNpm();
+          // change work dir
+          process.chdir(dataPath);
+          runCmd(which.sync(npm), ['install'], function () {
+            // runCmd(which.sync(npm), ['install', 'dva', '--save'], function () {
+            //   console.log(npm + ' install end');
+            //   // done();
+            // });
+          });
+        }
+      }
       let packageJson = JSON.parse(fs.readFileSync(join(dataPath, 'package.json'), 'utf-8'))
       packageJson.scripts[`start${id}`] = packageJson.scripts.start.replace('{id}', id);
       packageJson.scripts[`build${id}`] = packageJson.scripts.build.replace('{id}', id);

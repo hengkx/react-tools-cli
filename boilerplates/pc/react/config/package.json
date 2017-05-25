@@ -6,8 +6,8 @@
   "scripts": {
     "remove": "gulp clean:images",
     "clean": "gulp clean",
-    "start": "cross-env NODE_ENV=development node --trace-warnings -r babel-register ./node_modules/webpack-dev-server/bin/webpack-dev-server --config webpack.config.dev.js",
-    "build": "npm run clean && cross-env NODE_ENV=production node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.prod.js --progress --profile --colors && npm run remove"
+    "start": "cross-env NODE_ENV=development id={id} node --trace-warnings -r babel-register ./node_modules/webpack-dev-server/bin/webpack-dev-server --config webpack.config.dev.js",
+    "build": "npm run clean && cross-env NODE_ENV=production id={id} node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.prod.js --progress --profile --colors && npm run remove"
   },
   "keywords": [
     "react",
