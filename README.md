@@ -47,12 +47,12 @@ $ react global
     * `redux store dir` -- project redux directory. default `store`
     * `config dir` -- project config directory. default `config`
     * `utils dir` -- project config directory. default `utils`
-  * `dist dir` -- project source directory. default `app`
+  * `dist dir` -- project source directory. default `dist`
 * saga
   * `url prefix` -- Generate a saga request url prefix. eg : `APP.HOT.API.`
   * `url suffix` -- Generate a saga request url suffix.
   * `method` -- Generate a saga request method. default `get`
-  * `extra import` -- Generate a saga extra import file. eg : `import Api from '../Config/Api';`
+  * `extra import` -- Generate a saga extra import file. eg : `import Api from '../config/Api';`
 
 ### react new [options]
 Create a new project. options same as `gloabl options`
