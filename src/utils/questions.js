@@ -15,11 +15,6 @@ const directory = (directoryConfig = {}) => {
       default: directoryConfig.component || 'components'
     },
     {
-      name: 'script',
-      message: 'What\'s your component script directory',
-      default: directoryConfig.script || 'js'
-    },
-    {
       name: 'style',
       message: 'What\'s your component style directory',
       default: directoryConfig.style || 'less'
@@ -33,6 +28,16 @@ const directory = (directoryConfig = {}) => {
       name: 'staticData',
       message: 'What\'s your component static data directory',
       default: directoryConfig.staticData || 'json'
+    },
+    {
+      name: 'test',
+      message: 'What\'s your component script directory',
+      default: directoryConfig.test || 'test'
+    },
+    {
+      name: 'document',
+      message: 'What\'s your component document directory',
+      default: directoryConfig.document || 'doc'
     },
     {
       name: 'container',

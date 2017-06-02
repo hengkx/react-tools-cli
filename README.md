@@ -37,10 +37,11 @@ $ react global
 * directory
   * `source dir` -- project source directory. default `src`
     * `component dir` -- project component directory. default `components`
-      * `script dir` -- component script directory. default `js`
       * `style dir` -- component style directory. default `less`
       * `image dir` -- component image directory. default `images`
       * `static data dir` -- component static data directory. default `json`
+      * `unit test dir` -- component unit test directory. default `test`
+      * `document dir` -- component document directory. default `doc`
     * `container dir` -- project container directory. default `containers`
     * `redux dir` -- project redux directory. default `redux`
     * `redux store dir` -- project redux directory. default `store`

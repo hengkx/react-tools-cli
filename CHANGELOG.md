@@ -1,4 +1,7 @@
-# 1.2.0-beta.1
+# 1.2.0
+* **global:** change directory config
+
+# 1.2.0-beta.2(2017-05-25)
 * **global:** add browser support
 * **global:** add development port. default `5000`
 * **global:** add config file separation. default `false`
