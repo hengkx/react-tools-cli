@@ -198,5 +198,50 @@ const confirm = {
   message: 'Is this ok?',
   default: true
 };
+const componentBaseInfo = [
+  {
+    name: 'name',
+    message: 'component name'
+  },
+  {
+    name: 'description',
+    message: 'component description'
+  },
+  {
+    name: 'version',
+    message: 'component version',
+    default: '1.0.0'
+  },
+  {
+    type: 'confirm',
+    name: 'isStyle',
+    message: 'need style?',
+    default: true
+  },
+  {
+    type: 'confirm',
+    name: 'isStaticData',
+    message: 'need static data?',
+    default: false
+  },
+  {
+    type: 'confirm',
+    name: 'isDoc',
+    message: 'need doc?',
+    default: false
+  }, {
+    type: 'confirm',
+    name: 'isTest',
+    message: 'need test?',
+    default: false
+  },
+];
 
-export { project, browserSupport, directory, saga, confirm };
+const createType = {
+  type: 'list',
+  name: 'type',
+  message: 'What do you want to create?',
+  choices: ['component', 'component & redux', 'redux'],
+  default: 'component'
+};
+export { project, browserSupport, directory, saga, confirm, createType, componentBaseInfo };

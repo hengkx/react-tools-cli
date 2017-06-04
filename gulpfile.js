@@ -2,19 +2,26 @@ const gulp = require('gulp');
 const babel = require('gulp-babel');
 const del = require('del');
 
-gulp.task('clean', function () {
-  return del(['./lib']);
+gulp.task('clean', function (cb) {
+  return del(['./lib'], cb);
 });
 
-gulp.task('js', function () {
+function scripts() {
   gulp.src('./src/**/*.js')
-    .pipe(babel({
-      presets: ['es2015', 'stage-0'],
-      plugins: ['add-module-exports', 'transform-runtime']
-    }))
+    .pipe(babel())
+    .on('error', function (err) {
+      console.log(err.message);
+      this.end();
+    })
     .pipe(gulp.dest('lib'));
+}
+
+gulp.task('scripts', ['clean'], scripts);
+gulp.task('scripts-watch', scripts);
+
+
+gulp.task('watch', function () {
+  gulp.watch('./src/**/*.js', ['scripts-watch']);
 });
 
-gulp.task('default', ['clean'], function () {
-  gulp.watch('./src/**/*.js', ['js']);
-});
+gulp.task('default', ['watch', 'scripts']);

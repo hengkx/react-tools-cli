@@ -8,20 +8,7 @@ import clear from 'clear';
 import colors from 'colors';
 import co from 'co';
 import { project, browserSupport, directory, saga, confirm } from './utils/questions';
-
-function getConfig(configDir) {
-  const configPath = path.join(configDir, '.reactconfig');
-  if (fs.existsSync(configPath)) {
-    try {
-      return JSON.parse(fs.readFileSync(configPath, 'utf-8'));
-    } catch (error) {
-      fs.removeSync(configPath);
-      return {};
-    }
-  } else {
-    return {};
-  }
-}
+import getConfig from './utils/config';
 
 function hint(content) {
   console.log(chalk.magenta(content));

@@ -3,20 +3,12 @@ import fs from 'fs-extra';
 import createSagaFile, { getActionAndReducer, createSagaStr } from './tpls';
 import chalk from 'chalk';
 import _ from 'lodash';
-import ncp from 'copy-paste';
+import inquirer from 'inquirer';
 import { getWatchSagas, getActions } from './utils/saga';
+import getConfig from './utils/config';
 
 function info(type, message) {
   console.log(`${chalk.green.bold(leftPad(type, 12))}  ${message}`);
-}
-
-function getConfig(cwd) {
-  const configPath = path.join(cwd, '.reactconfig');
-  if (fs.existsSync(configPath)) {
-    return JSON.parse(fs.readFileSync(configPath, 'utf-8'));
-  } else {
-    return {};
-  }
 }
 
 function generate(program, { cwd }) {
@@ -27,10 +19,14 @@ function generate(program, { cwd }) {
   const extraImport = program.extraImport || sagaConfig.extraImport || '';
   const method = program.method || sagaConfig.method || 'get';
 
-  const [filename, actionName, url] = program.args;
+  const [filename, actionName] = program.args;
+  let url = program.args.url;
+
   try {
     if (!filename) throw new Error(`ERROR: uncaught filename ${filename}`);
-
+    if (!url) {
+      url = _.upperFirst(_.camelCase(filename));
+    }
     const sagaPath = path.join(cwd, 'src', 'redux');
     if (!fs.existsSync(sagaPath)) fs.mkdirsSync(sagaPath);
     const filePath = path.join(sagaPath, `${filename}.js`);
@@ -70,9 +66,6 @@ function generate(program, { cwd }) {
     watchSagas.forEach((item) => watchSagaStr = `${watchSagaStr} ${item.name},`);
     watchSagaStr = `${watchSagaStr.substr(0, watchSagaStr.length - 1)} } from './${filename}';`;
     console.log(chalk.green.bold(watchSagaStr));
-    ncp.copy(watchSagaStr, function () {
-      console.log(chalk.green.bold('成功复制到剪贴板！'));
-    });
   } catch (error) {
     console.log(chalk.red.bold(error.message));
   }

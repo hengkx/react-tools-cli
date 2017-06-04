@@ -1,7 +1,10 @@
 # 1.2.0
+### Features
 * **global:** change directory config
+* **generate:** url default `filename pascal`
 
 # 1.2.0-beta.2(2017-05-25)
+### Features
 * **global:** add browser support
 * **global:** add development port. default `5000`
 * **global:** add config file separation. default `false`
