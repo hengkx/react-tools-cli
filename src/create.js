@@ -10,11 +10,12 @@ import Mustache from 'mustache';
 import { project, browserSupport, directory, saga, confirm, componentBaseInfo, createType } from './utils/questions';
 import getConfig from './utils/config';
 
+function getBoilerplateContent(filename, obj) {
+  return Mustache.render(readFileSync(join('../boilerplates/react', filename), 'utf-8'), obj);
+}
+
 function* create({ cwd, defaultConfigDir }) {
   clear();
-  // console.log(require('./tpls/component/index.mustache'));
-  // console.log(Mustache.render(readFileSync('../tpls/component/index.mustache', 'utf-8'), { name: 'a' }));
-
 
   let config = getConfig(defaultConfigDir);
   if (existsSync(join(cwd, '.reactconfig'))) {
@@ -29,28 +30,30 @@ function* create({ cwd, defaultConfigDir }) {
     component.name = _.upperFirst(_.camelCase(component.name));
     const componentPath = join(config.directory.source, config.directory.component, component.name);
     mkdirsSync(componentPath);
-
+    const boilerplatePath = '../boilerplates';
     writeFileSync(join(componentPath, 'index.js'),
-      Mustache.render(readFileSync('../boilerplates/component/index.mustache', 'utf-8'),
-        { name: component.name }));
+      getBoilerplateContent('component/index.mustache',
+        { name: component.name })
+    );
 
     const lifecycle = {};
     const module = {};
-    const muduleName = _.camelCase(component.name);
+    const camelCaseName = _.camelCase(component.name);
     _.forEach(component.lifecycle, (item) => lifecycle[item] = true);
-    _.forEach(component.module, (item) => module[item] = muduleName);
+    _.forEach(component.module, (item) => module[item] = camelCaseName);
 
     writeFileSync(join(componentPath, `${component.name}.js`),
-      Mustache.render(readFileSync('../boilerplates/component/component.mustache', 'utf-8'),
-        {
-          ...component,
-          lifecycle,
-          module
-        }));
+      getBoilerplateContent('component/component.mustache', {
+        ...component,
+        lifecycle,
+        module
+      })
+    );
+
     if (module.style) {
       const stylePath = join(componentPath, config.directory.style);
       mkdirsSync(stylePath);
-      writeFileSync(join(stylePath, `${muduleName}.less`), '');
+      writeFileSync(join(stylePath, `${camelCaseName}.less`), '');
     }
   }
 }

@@ -10,8 +10,7 @@ const defaultConfig = {
   nodeModulesPath: '',
   devPort: 5000,
   browserSupport: { chrome: '', firefox: '', safari: '', opera: '', edge: '', ie: '' },
-  directory:
-  {
+  directory: {
     source: 'src',
     component: 'components',
     style: 'less',

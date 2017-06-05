@@ -1,0 +1,51 @@
+import { createActions, handleActions } from 'redux-actions';
+import { call, put, takeEvery } from 'redux-saga/effects';
+import axios from 'axios';
+{{#progress}}
+import { beginTask, endTask } from 'redux-nprogress';
+{{/progress}}
+{{#extraImport}}
+{{extraImport}}
+{{/extraImport}}
+
+// beging not modify
+{{#sagas}}
+const {
+  {{name}}, {{name}}Result
+} = createActions('{{type}}', '{{type}}_RESULT');
+
+export { {{name}} };
+
+export default handleActions({
+  {{type}}: (state) => ({
+    ...state,
+    isfetching: true
+  }),
+  {{type}}_RESULT: (state, action) => ({
+    ...state,
+    isfetching: false,
+    {{name}}Result: action.payload
+  })
+}, {});
+{{/sagas}}
+// ending not modify
+
+{{#sagas}}
+function* {{name}}Saga({{#needParam}}data{{/needParam}}) {
+  try {
+    yield put(beginTask());
+
+    const res = yield call(axios.{{method}}, {{url}}, {{#needParam}}{{#isGet}}{ params: data.payload }{{/isGet}}{{^isGet}}data.payload{{/isGet}}{{/needParam}});
+
+    yield put({{name}}Result(res));
+  } catch (error) {
+    yield put({{name}}Result(error));
+  } finally {
+    yield put(endTask());
+  }
+}
+
+export function* watch{{#watchName}}Saga() {
+  yield takeEvery({{name}}, {{name}}Saga);
+}
+{{/sagas}}
