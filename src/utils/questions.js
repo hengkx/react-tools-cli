@@ -1,5 +1,6 @@
 import pickBy from 'lodash/pickBy';
 import { join } from 'path';
+import inquirer from 'inquirer';
 import { existsSync } from 'fs';
 
 const directory = (directoryConfig = {}) => {
@@ -201,7 +202,13 @@ const confirm = {
 const componentBaseInfo = [
   {
     name: 'name',
-    message: 'component name'
+    message: 'component name',
+    validate: function (input) {
+      if (input) {
+        return true;
+      }
+      return 'Please input component name';
+    }
   },
   {
     name: 'description',
@@ -213,28 +220,77 @@ const componentBaseInfo = [
     default: '1.0.0'
   },
   {
+    type: 'checkbox',
+    message: 'Select Module',
+    name: 'module',
+    choices: [
+      {
+        name: 'style',
+        checked: true
+      },
+      {
+        name: 'images'
+      },
+      {
+        name: 'test'
+      },
+      {
+        name: 'doc'
+      },
+      {
+        name: 'data'
+      }
+    ]
+  },
+  {
+    type: 'checkbox',
+    message: 'Select Lifecycle',
+    name: 'lifecycle',
+    choices: [
+      new inquirer.Separator('Mounting'),
+      {
+        name: 'constructor',
+        checked: true
+      },
+      {
+        name: 'componentWillMount'
+      },
+      {
+        name: 'render',
+        disabled: true
+      },
+      {
+        name: 'componentDidMount'
+      },
+      new inquirer.Separator('Updating'),
+      {
+        name: 'componentWillReceiveProps'
+      },
+      {
+        name: 'shouldComponentUpdate'
+      },
+      {
+        name: 'componentWillUpdate'
+      },
+      {
+        name: 'render',
+        disabled: true
+      },
+      {
+        name: 'componentDidUpdate'
+      },
+      new inquirer.Separator('Unmounting'),
+      {
+        name: 'componentWillUnmount'
+      }
+    ]
+  },
+  {
     type: 'confirm',
-    name: 'isStyle',
-    message: 'need style?',
+    name: 'isPropCheck',
+    message: 'Is this prop types check?',
     default: true
-  },
-  {
-    type: 'confirm',
-    name: 'isStaticData',
-    message: 'need static data?',
-    default: false
-  },
-  {
-    type: 'confirm',
-    name: 'isDoc',
-    message: 'need doc?',
-    default: false
-  }, {
-    type: 'confirm',
-    name: 'isTest',
-    message: 'need test?',
-    default: false
-  },
+  }
 ];
 
 const createType = {
@@ -244,4 +300,5 @@ const createType = {
   choices: ['component', 'component & redux', 'redux'],
   default: 'component'
 };
+
 export { project, browserSupport, directory, saga, confirm, createType, componentBaseInfo };

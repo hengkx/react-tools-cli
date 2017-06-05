@@ -1,0 +1,79 @@
+import React from 'react';
+{{#isPropCheck}}
+import PropTypes from 'prop-types';
+{{/isPropCheck}}
+{{#module.style}}
+import './less/{{module.style}}.less';
+{{/module.style}}
+
+class {{name}} extends React.Component {
+{{#isPropCheck}}
+
+  static propTypes = {
+
+  }
+
+  static defaultProps = {
+
+  }
+{{/isPropCheck}}
+{{#lifecycle.constructor}}
+
+  constructor(props) {
+    super(props);
+
+  }
+{{/lifecycle.constructor}}
+{{#lifecycle.componentWillMount}}
+
+  componentWillMount() {
+
+  }
+{{/lifecycle.componentWillMount}}
+{{#lifecycle.componentDidMount}}
+
+  componentDidMount() {
+
+  }
+{{/lifecycle.componentDidMount}}
+{{#lifecycle.componentWillReceiveProps}}
+
+  componentWillReceiveProps(nextProps) {
+
+  }
+{{/lifecycle.componentWillReceiveProps}}
+{{#lifecycle.shouldComponentUpdate}}
+
+  shouldComponentUpdate(nextProps, nextState) {
+
+  }
+{{/lifecycle.shouldComponentUpdate}}
+{{#lifecycle.componentWillUpdate}}
+
+  componentWillUpdate(nextProps, nextState) {
+
+  }
+{{/lifecycle.componentWillUpdate}}
+{{#lifecycle.componentDidUpdate}}
+
+  componentDidUpdate(prevProps, prevState) {
+
+  }
+{{/lifecycle.componentDidUpdate}}
+{{#lifecycle.componentWillUnmount}}
+
+  componentWillUnmount() {
+
+  }
+{{/lifecycle.componentWillUnmount}}
+
+  render() {
+    return (
+      <div>
+        {{name}}
+      </div>
+    );
+  }
+}
+
+export default {{name}};

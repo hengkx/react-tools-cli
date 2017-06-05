@@ -4,5 +4,5 @@ const program = require('commander');
 
 require('../lib/config')({
   cwd: process.cwd(),
-  configDir: process.env.USERPROFILE
+  defaultConfigDir: process.env.USERPROFILE
 });

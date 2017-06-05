@@ -44,7 +44,7 @@ function* config({ cwd, defaultConfigDir, isCreateProject }) {
   config.saga = yield inquirer.prompt(saga(config.saga));
   hint('confirm config');
   const confirmResult = yield inquirer.prompt(confirm);
-
+  console.log(config);
   if (confirmResult.isOk) {
     if (isCreateProject) {
       return config;
@@ -55,7 +55,6 @@ function* config({ cwd, defaultConfigDir, isCreateProject }) {
     console.log(chalk.red('Aborted.'));
   }
 }
-
 
 export default ({ defaultConfigDir, cwd, isCreateProject }) => {
   return co(config({ defaultConfigDir, cwd, isCreateProject }));
