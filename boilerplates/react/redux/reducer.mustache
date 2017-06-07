@@ -1,0 +1,9 @@
+  {{type}}: (state) => ({
+    ...state,
+    isfetching: true
+  }),
+  {{type}}_RESULT: (state, action) => ({
+    ...state,
+    isfetching: false,
+    {{name}}Result: action.payload
+  })

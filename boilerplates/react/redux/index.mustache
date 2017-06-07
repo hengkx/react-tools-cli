@@ -1,0 +1,12 @@
+import { handleActions } from 'redux-actions';
+{{#sagas}}
+import {{filename}}Reducers, { {{export}} } from './{{filename}}';
+{{/sagas}}
+
+export default handleActions({
+  ...{{{exportReducers}}}
+}, {});
+
+export {
+  {{{exportSagas}}}
+};

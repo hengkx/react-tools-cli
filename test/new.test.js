@@ -12,7 +12,7 @@ test('getRenamePaths', () => {
     "container": "containers",
     "redux": "redux",
     "reduxStore": "store",
-    "config": "configs",
+    "config": "config",
     "util": "utils",
     "dist": "app"
   })).toEqual([]);
@@ -27,7 +27,7 @@ test('getRenamePaths', () => {
     "container": "containers",
     "redux": "redux",
     "reduxStore": "store",
-    "config": "configs",
+    "config": "config",
     "util": "utils",
     "dist": "app"
   })).toEqual([

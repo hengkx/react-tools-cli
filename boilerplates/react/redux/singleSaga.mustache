@@ -10,19 +10,24 @@ import { beginTask, endTask } from 'redux-nprogress';
 
 // beging not modify
 const {
-  {{actionNames}}
-} = createActions(
-    {{{actionTypes}}}
-  );
+  {{name}}, {{name}}Result
+} = createActions('{{type}}', '{{type}}_RESULT');
 
-export { {{actionNameExports}} };
+export { {{name}} };
 
-export default handleActions({
-  {{{reducers}}}
-}, {});
+export default {
+  {{type}}: (state) => ({
+    ...state,
+    isfetching: true
+  }),
+  {{type}}_RESULT: (state, action) => ({
+    ...state,
+    isfetching: false,
+    {{name}}Result: action.payload
+  })
+};
 // ending not modify
 
-{{#sagas}}
 function* {{name}}Saga({{#needParam}}data{{/needParam}}) {
   try {
     yield put(beginTask());
@@ -40,5 +45,3 @@ function* {{name}}Saga({{#needParam}}data{{/needParam}}) {
 export function* {{watchName}}() {
   yield takeEvery({{name}}, {{name}}Saga);
 }
-
-{{/sagas}}

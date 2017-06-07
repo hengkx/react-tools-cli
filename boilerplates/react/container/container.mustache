@@ -1,0 +1,12 @@
+import { connect } from 'react-redux';
+import {{name}} from '../{{componentDir}}/{{name}}';
+{{importContent}}
+
+const mapStateToProps = (state) => ({
+  {{mapStateToProps}}
+});
+
+export default connect(
+  mapStateToProps,
+  { {{exportActions}} }
+)({{name}});
