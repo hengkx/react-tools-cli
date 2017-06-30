@@ -1,0 +1,9 @@
+{
+    "id": "unique",
+    "theme": "dark",
+    "notice": {
+        "showTime": 5000,
+        "unShowType": "warning"
+    },
+    "autoUpdate": true
+}

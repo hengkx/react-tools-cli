@@ -1,0 +1,151 @@
+{
+    "dir": "__dirname",
+    "platform": "pc",
+    "type": "web",
+    "general": {
+        "publicPath": ".",
+        "target": "web",
+        "resolve": {
+            "alias": {
+                "rework": "rework.less/rework.less",
+                "sprite": "../../../../.build/sprite.less",
+                "api": "",
+                "utils": ""
+            },
+            "extensions": [
+                ".web.js",
+                ".js",
+                ".json"
+            ],
+            "mainFields": [
+                "browser",
+                "jsnext:main",
+                "main"
+            ]
+        },
+        "externals": {
+            "configs": "configs"
+        },
+        "performance": {
+            "maxAssetSize": 400000,
+            "maxEntrypointSize": 600000
+        }
+    },
+    "theme": {
+        "primary-color": "#0b87fd",
+        "border-radius-base": "0px",
+        "border-radius-sm": "0px",
+        "brand-primary": "#43a5df",
+        "brand-primary-tap": "#43a5df"
+    },
+    "directory": {
+        "development": {
+            "envName": "src",
+            "component": "components",
+            "container": "containers",
+            "redux": "redux",
+            "store": "store",
+            "util": "utils",
+            "config": "configs",
+            "sprite": "sprite",
+            "style": "less",
+            "data": "json",
+            "test": "test",
+            "document": "doc"
+        },
+        "build": {
+            "envName": ".build"
+        },
+        "production": {
+            "envName": "dist",
+            "resource": "resources",
+            "dll": "dll",
+            "javascript": "js",
+            "style": "css",
+            "asset": "images"
+        }
+    },
+    "compiler": {
+        "javascript": {
+            "babel": {}
+        },
+        "css": {
+            "less": {
+                "minimize": true,
+                "sourceMap": true
+            },
+            "postcss": {
+                "autoprefixer": {
+                    "browsers": [
+                        "last 3 versions",
+                        "> 1%"
+                    ]
+                },
+                "pxtorem": {
+                    "rootValue": "100",
+                    "propWhiteList": []
+                }
+            }
+        },
+        "asset": {
+            "image": {
+                "optimizer": {
+                    "limit": 10000
+                }
+            },
+            "svg": {
+                "sprite": {
+                    "extract": false
+                }
+            }
+        },
+        "html": {
+            "title": "Single Page Application",
+            "description": "description",
+            "keywords": "keywords"
+        }
+    },
+    "saga": {
+        "actionName": "",
+        "url": "",
+        "urlPrefix": "Api.",
+        "urlSuffix": "",
+        "method": "GET",
+        "param": false
+    },
+    "dll": {
+        "name": "vendor",
+        "target": "var",
+        "content": [
+            "babel-polyfill",
+            "react",
+            "react-dom",
+            "history",
+            "react-router",
+            "react-redux",
+            "redux",
+            "redux-saga",
+            "redux-actions",
+            "axios"
+        ]
+    },
+    "debug": {
+        "port": 3000,
+        "browsersync": {
+            "port": 4000,
+            "open": true
+        }
+    },
+    "build": {},
+    "preview": {
+        "port": ""
+    },
+    "deploy": {
+        "host": "",
+        "port": "",
+        "token": "",
+        "environment": "IIS"
+    },
+    "git": {},
+    "remote": {}
+}

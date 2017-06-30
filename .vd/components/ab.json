@@ -1,0 +1,47 @@
+{
+  "name": "AB",
+  "type": 1,
+  "description": "",
+  "version": "1.0.0",
+  "module": [
+    "style"
+  ],
+  "lifecycle": [
+    "constructor"
+  ],
+  "isPropCheck": true,
+  "progress": true,
+  "importContent": "ddd",
+  "exportActions": "dadasdaasdas",
+  "mapStateToProps": "ccccc",
+  "extraImport": "import test",
+  "sagas": [
+    {
+      "type": "GET_STUDENT",
+      "url": "Api.test",
+      "method": "get",
+      "needParam": true,
+      "name": "getStudent",
+      "filename": "getStudent",
+      "watchName": "watchGetStudentSaga",
+      "export": "getStudent, watchGetStudentSaga"
+    },
+    {
+      "type": "P_STUDENT",
+      "url": "Api.test",
+      "method": "post",
+      "needParam": true,
+      "name": "pStudent",
+      "filename": "pStudent",
+      "watchName": "watchPStudentSaga",
+      "export": "pStudent, watchPStudentSaga"
+    }
+  ],
+  "camelCaseName": "ab",
+  "exportSagas": "getStudent, watchGetStudentSaga,\n  pStudent, watchPStudentSaga",
+  "actionTypes": "'GET_STUDENT', 'GET_STUDENT_RESULT',\n    'P_STUDENT', 'P_STUDENT_RESULT'",
+  "actionNames": "getStudent, getStudentResult,\n  pStudent, pStudentResult",
+  "actionNameExports": "getStudent, pStudent",
+  "exportReducers": "getStudent,\n  ...pStudent",
+  "reducers": "GET_STUDENT: (state) => ({\n    ...state,\n    isfetching: true\n  }),\n  GET_STUDENT_RESULT: (state, action) => ({\n    ...state,\n    isfetching: false,\n    getStudentResult: action.payload\n  }),P_STUDENT: (state) => ({\n    ...state,\n    isfetching: true\n  }),\n  P_STUDENT_RESULT: (state, action) => ({\n    ...state,\n    isfetching: false,\n    pStudentResult: action.payload\n  })"
+}
