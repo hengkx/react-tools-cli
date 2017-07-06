@@ -1,0 +1,17 @@
+import ReduxReqs from 'redux-reqs';
+{{#extraImport}}
+{{extraImport}}
+{{/extraImport}}
+
+const reduxReqs = new ReduxReqs({
+  prefix: {{prefix}}
+});
+
+reduxReqs
+  .{{method}}({{actionName}}, {{url}});
+
+export const { {{actionType}} } = reduxReqs.getCreateActions();
+
+export default reduxReqs.getReducers();
+
+export const watchSagas = reduxReqs.getWatchSagas();

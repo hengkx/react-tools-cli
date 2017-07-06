@@ -44,9 +44,9 @@ function create(config, opts = { type: 0 }) {
     const name = _.upperFirst(_.camelCase(opts.name));
     const camelCaseName = _.camelCase(name);
     opts.camelCaseName = camelCaseName;
-    const componentPath = join(config.directory.source, config.directory.component, name);
+    const componentPath = join(config.dir, config.directory.source, config.directory.component, name);
     mkdirsSync(componentPath);
-    const vdConfigPath = join('.vd', 'components');
+    const vdConfigPath = join(config.dir, '.vd', 'components');
     mkdirsSync(vdConfigPath);
 
     writeFileSync(join(componentPath, 'index.js'),
@@ -57,24 +57,29 @@ function create(config, opts = { type: 0 }) {
     const lifecycle = {};
     const module = {};
     _.forEach(opts.lifecycle, (item) => lifecycle[item] = true);
-    _.forEach(opts.module, (item) => module[item] = camelCaseName);
+    _.forEach(opts.module, (item) => {
+      module[item] = camelCaseName;
+      if (item !== 'style') {
+        mkdirsSync(join(componentPath, config.directory[item] || item));
+      }
+    });
 
     if (opts.type === 1) {
-      processSaga(opts);
-      const reduxPath = join(config.directory.source, config.directory.redux, camelCaseName);
+      const reduxPath = join(config.dir, config.directory.source, config.directory.redux, camelCaseName);
       mkdirsSync(reduxPath);
-      writeFileSync(join(reduxPath, 'index.js'),
-        getBoilerplateContent('redux/index.mustache',
-          opts)
-      );
 
       opts.sagas.forEach(item => {
-        writeFileSync(join(reduxPath, `${item.filename}.js`),
-          getBoilerplateContent('redux/singleSaga.mustache',
-            item)
+        writeFileSync(join(reduxPath, `${camelCaseName}.js`),
+          getBoilerplateContent('redux/saga2.mustache',
+            {
+              ...item,
+              prefix: camelCaseName.toUpperCase(),
+              actionType: camelCase(item.actionName)
+            })
         );
       });
-      const containerPath = join(config.directory.source, config.directory.container);
+
+      const containerPath = join(config.dir, config.directory.source, config.directory.container);
       mkdirsSync(containerPath);
       writeFileSync(join(containerPath, `${name}.js`),
         getBoilerplateContent('container/container.mustache',
