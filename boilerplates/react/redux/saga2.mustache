@@ -1,14 +1,14 @@
 import ReduxReqs from 'redux-reqs';
 {{#extraImport}}
-{{extraImport}}
+{{{extraImport}}}
 {{/extraImport}}
 
 const reduxReqs = new ReduxReqs({
-  prefix: {{prefix}}
+  prefix: '{{prefix}}'
 });
 
 reduxReqs
-  .{{method}}({{actionName}}, {{url}});
+  .{{method}}('{{actionName}}', {{urlPrefix}}{{url}}{{urlSuffix}});
 
 export const { {{actionType}} } = reduxReqs.getCreateActions();
 

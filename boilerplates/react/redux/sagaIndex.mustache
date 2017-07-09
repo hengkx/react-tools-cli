@@ -1,0 +1,15 @@
+import ReduxReqs from 'redux-reqs';
+import { beginTask, endTask } from 'redux-nprogress';
+{{{importContent}}}
+
+
+ReduxReqs.defaults = {
+  beforeAction: beginTask(),
+  afterAction: endTask(),
+};
+
+export default function* rootSaga() {
+  yield [
+    {{{content}}}
+  ];
+}

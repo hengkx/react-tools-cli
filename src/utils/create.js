@@ -4,6 +4,7 @@ import { existsSync, mkdirsSync, writeFileSync, readFileSync } from 'fs-extra';
 import Mustache from 'mustache';
 import getConfig from './config';
 import camelCase from './camelCase';
+import reduxReset from './reduxReset';
 
 function getBoilerplateContent(filename, obj) {
   return Mustache.render(readFileSync(join(__dirname, '../../boilerplates/react', filename), 'utf-8'), obj);
@@ -56,6 +57,8 @@ function create(config, opts = { type: 0 }) {
 
     const lifecycle = {};
     const module = {};
+    const firstLoad = [];
+
     _.forEach(opts.lifecycle, (item) => lifecycle[item] = true);
     _.forEach(opts.module, (item) => {
       module[item] = camelCaseName;
@@ -65,32 +68,71 @@ function create(config, opts = { type: 0 }) {
     });
 
     if (opts.type === 1) {
-      const reduxPath = join(config.dir, config.directory.source, config.directory.redux, camelCaseName);
+      const reduxPath = join(config.dir, config.directory.source, config.directory.redux);
       mkdirsSync(reduxPath);
-
+      const actionGroups = {};
+      const exportActions = [];
+      const mapStateToProps = [];
       opts.sagas.forEach(item => {
+        const actionType = camelCase(item.actionName);
         writeFileSync(join(reduxPath, `${camelCaseName}.js`),
           getBoilerplateContent('redux/saga2.mustache',
             {
               ...item,
+              method: item.method.toLowerCase(),
+              actionName: item.actionName.toUpperCase(),
               prefix: camelCaseName.toUpperCase(),
-              actionType: camelCase(item.actionName)
+              actionType
             })
         );
+        actionGroups[camelCaseName] = [];
+        exportActions.push(actionType);
+        actionGroups[camelCaseName].push(actionType);
+        mapStateToProps.push(`${actionType}Result: state.${name}.${actionType}Result`);
       });
 
       const containerPath = join(config.dir, config.directory.source, config.directory.container);
       mkdirsSync(containerPath);
+      const { actions = [], first = [] } = opts.import;
+      first.forEach(item => {
+        const [name, actionName] = item.split(' ');
+        const actionType = _.camelCase(actionName);
+        firstLoad.push(`this.props.${actionType}()`);
+      });
+      let importContent = '';
+      actions.forEach(item => {
+        const [name, actionName] = item.split(' ');
+        if (!actionGroups[name]) {
+          actionGroups[name] = [];
+        }
+        const actionType = _.camelCase(actionName);
+        exportActions.push(actionType);
+        actionGroups[name].push(actionType);
+        mapStateToProps.push(`${actionType}Result: state.${name}.${actionType}Result`);
+      });
+      Object.keys(actionGroups).forEach(key => {
+        importContent += `import { ${actionGroups[key].join(', ')} } from '../${config.directory.redux}/${key}'\n`;
+      });
+
       writeFileSync(join(containerPath, `${name}.js`),
         getBoilerplateContent('container/container.mustache',
-          opts)
+          {
+            ...opts,
+            componentDir: config.directory.component,
+            importContent,
+            mapStateToProps: mapStateToProps.join(',\n'),
+            exportActions: exportActions.join(', '),
+          })
       );
+
+      reduxReset(reduxPath);
     }
 
     writeFileSync(join(componentPath, `${name}.js`),
       getBoilerplateContent('component/component.mustache', {
         ...opts,
         lifecycle,
+        firstLoad: firstLoad.join(';\n'),
         module
       })
     );
