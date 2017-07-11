@@ -111,7 +111,7 @@ function create(config, opts = { type: 0 }) {
         mapStateToProps.push(`${actionType}Result: state.${name}.${actionType}Result`);
       });
       Object.keys(actionGroups).forEach(key => {
-        importContent += `import { ${actionGroups[key].join(', ')} } from '../${config.directory.redux}/${key}'\n`;
+        importContent += `import { ${actionGroups[key].join(', ')} } from '../${config.directory.redux}/${key}';\n`;
       });
 
       writeFileSync(join(containerPath, `${name}.js`),

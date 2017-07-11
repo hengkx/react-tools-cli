@@ -13,7 +13,7 @@ function scripts() {
       console.log(err.message);
       this.end();
     })
-    // .pipe(gulp.dest('lib'));
+    .pipe(gulp.dest('lib'))
     .pipe(gulp.dest('C:/Users/xuzhiheng/Desktop/VD/app/node_modules/react-tools-cli/lib'));
     // .pipe(gulp.dest('C:/Users/xuzhiheng/Desktop/visual-develop/node_modules/react-tools-cli/lib'));
 }

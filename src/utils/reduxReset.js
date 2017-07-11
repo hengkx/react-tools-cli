@@ -20,9 +20,9 @@ export default (reduxPath) => {
       if (fileName !== 'sagas.js' && fileName !== 'reducers.js') {
         const { name, ext } = parse(fileName);
         if (ext === '.js') {
-          reducerImport.push(`import ${name} from './${name};'`);
+          reducerImport.push(`import ${name} from './${name}';`);
           reducerContent.push(name);
-          sagaImport.push(`import { watchSagas as ${name}Sagas } from './${name};'`);
+          sagaImport.push(`import { watchSagas as ${name}Sagas } from './${name}';`);
           sagaContent.push(`...${name}Sagas()`);
         }
       }
@@ -40,7 +40,7 @@ export default (reduxPath) => {
     getBoilerplateContent('redux/sagaIndex.mustache',
       {
         importContent: sagaImport.join('\n'),
-        content: sagaContent.join(',\n  ')
+        content: sagaContent.join(',\n    ')
       })
   );
 }
