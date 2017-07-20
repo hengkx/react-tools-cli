@@ -108,7 +108,7 @@ function create(config, opts = { type: 0 }) {
         const actionType = _.camelCase(actionName);
         exportActions.push(actionType);
         actionGroups[name].push(actionType);
-        mapStateToProps.push(`${actionType}Result: state.${name}.${actionType}Result`);
+        mapStateToProps.push(`${actionType}Result: state.${_.camelCase(name)}.${actionType}Result`);
       });
       Object.keys(actionGroups).forEach(key => {
         importContent += `import { ${actionGroups[key].join(', ')} } from '../${config.directory.redux}/${key}';\n`;

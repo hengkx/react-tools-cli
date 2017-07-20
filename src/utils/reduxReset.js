@@ -23,7 +23,7 @@ export default (reduxPath) => {
           reducerImport.push(`import ${name} from './${name}';`);
           reducerContent.push(name);
           sagaImport.push(`import { watchSagas as ${name}Sagas } from './${name}';`);
-          sagaContent.push(`...${name}Sagas()`);
+          sagaContent.push(`...${name}Sagas`);
         }
       }
     }
