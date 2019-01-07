@@ -35,7 +35,7 @@
     "cross-spawn": "^5.1.0",
     "figlet": "^1.2.0",
     "fs-extra": "^3.0.1",
-    "inquirer": "^3.0.6",
+    "inquirer": "^6.0.0",
     "invariant": "^2.2.2",
     "lodash": "^4.17.4",
     "mustache": "^2.3.0",
