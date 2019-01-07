@@ -39,7 +39,7 @@
     "invariant": "^2.2.2",
     "lodash": "^4.17.4",
     "mustache": "^3.0.0",
-    "object.omit": "^2.0.1",
+    "object.omit": "^3.0.0",
     "ora": "^1.2.0",
     "prompt": "^1.0.0",
     "update-notifier": "^2.1.0",
